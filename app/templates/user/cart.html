@@ -1,0 +1,167 @@
+{% extends "base.html" %}
+
+{% block title %}My Cart - FIFA 2026{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <h1 class="display-5 fw-bold text-primary mb-4">My Cart</h1>
+
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="card shadow">
+                <div class="card-body p-5">
+                    <h5 class="mb-4">Items in Cart</h5>
+                    <div id="cart-items" class="mb-4"></div>
+
+                    <hr>
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h4>Total Amount</h4>
+                        <h4 class="text-success fw-bold" id="total-amount">$0</h4>
+                    </div>
+
+                    <!-- Proceed to Payment Button -->
+                    <button onclick="showPaymentModal()" class="btn btn-success btn-lg w-100 py-3" id="checkout-btn" style="display: none;">
+                        <i class="fas fa-credit-card me-2"></i> Proceed to Payment
+                    </button>
+
+                    <a href="/user/tickets/booking" class="btn btn-outline-primary w-100 mt-3">Continue Shopping</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Payment Method Modal -->
+<div class="modal fade" id="paymentModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-success text-white">
+                <h5 class="modal-title">Choose Payment Method</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p class="text-muted mb-4">Total Amount: <strong id="modal-total">$0</strong></p>
+
+                <div class="row g-3">
+                    <!-- bKash -->
+                    <div class="col-6">
+                        <button onclick="selectPayment('bKash')" class="btn btn-outline-primary w-100 p-3 h-100">
+                            <span class="fs-3">📱</span><br>
+                            <strong>bKash</strong>
+                        </button>
+                    </div>
+                    <!-- Nagad -->
+                    <div class="col-6">
+                        <button onclick="selectPayment('Nagad')" class="btn btn-outline-primary w-100 p-3 h-100">
+                            <span class="fs-3">📱</span><br>
+                            <strong>Nagad</strong>
+                        </button>
+                    </div>
+                    <!-- Visa -->
+                    <div class="col-6">
+                        <button onclick="selectPayment('Visa')" class="btn btn-outline-primary w-100 p-3 h-100">
+                            <span class="fs-3">💳</span><br>
+                            <strong>Visa</strong>
+                        </button>
+                    </div>
+                    <!-- MasterCard -->
+                    <div class="col-6">
+                        <button onclick="selectPayment('MasterCard')" class="btn btn-outline-primary w-100 p-3 h-100">
+                            <span class="fs-3">💳</span><br>
+                            <strong>MasterCard</strong>
+                        </button>
+                    </div>
+                    <!-- American Express -->
+                    <div class="col-6">
+                        <button onclick="selectPayment('American Express')" class="btn btn-outline-primary w-100 p-3 h-100">
+                            <span class="fs-3">💳</span><br>
+                            <strong>American Express</strong>
+                        </button>
+                    </div>
+                    <!-- Cash on Delivery -->
+                    <div class="col-6">
+                        <button onclick="selectPayment('Cash')" class="btn btn-outline-primary w-100 p-3 h-100">
+                            <span class="fs-3">💵</span><br>
+                            <strong>Cash on Delivery</strong>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+function renderCart() {
+    const cartItemsDiv = document.getElementById('cart-items');
+    const totalAmount = document.getElementById('total-amount');
+    const checkoutBtn = document.getElementById('checkout-btn');
+
+    if (cart.length === 0) {
+        cartItemsDiv.innerHTML = `<div class="alert alert-info text-center">Your cart is empty.</div>`;
+        checkoutBtn.style.display = 'none';
+        totalAmount.textContent = '$0';
+        return;
+    }
+
+    let html = '';
+    let total = 0;
+
+    cart.forEach((item, index) => {
+        total += item.price || 0;
+        html += `
+            <div class="border rounded p-3 mb-3">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6>${item.type}</h6>
+                        <small class="text-muted">${item.details || ''}</small>
+                    </div>
+                    <div class="text-end">
+                        <h6 class="text-success">$${item.price || 0}</h6>
+                        <button onclick="removeFromCart(${index})" class="btn btn-sm btn-outline-danger mt-1">Remove</button>
+                    </div>
+                </div>
+            </div>`;
+    });
+
+    cartItemsDiv.innerHTML = html;
+    totalAmount.textContent = `$${total}`;
+    checkoutBtn.style.display = 'block';
+}
+
+function removeFromCart(index) {
+    cart.splice(index, 1);
+    localStorage.setItem('cart', JSON.stringify(cart));
+    renderCart();
+}
+
+function showPaymentModal() {
+    if (cart.length === 0) return;
+    const total = cart.reduce((sum, item) => sum + (item.price || 0), 0);
+    document.getElementById('modal-total').textContent = `$${total}`;
+    new bootstrap.Modal(document.getElementById('paymentModal')).show();
+}
+
+function selectPayment(method) {
+    const total = cart.reduce((sum, item) => sum + (item.price || 0), 0);
+    
+    bootstrap.Modal.getInstance(document.getElementById('paymentModal')).hide();
+    
+    setTimeout(() => {
+        if (confirm(`Pay $${total} using ${method}?`)) {
+            alert(`🎉 Payment Successful!\n\nMethod: ${method}\nAmount: $${total}\n\nThank you for your purchase!`);
+            localStorage.removeItem('cart');
+            cart = [];
+            renderCart();
+        }
+    }, 300);
+}
+
+document.addEventListener('DOMContentLoaded', renderCart);
+</script>
+{% endblock %}

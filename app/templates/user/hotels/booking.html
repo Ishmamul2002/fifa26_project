@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}Hotel Booking - FIFA 2026{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <!-- Breadcrumb -->
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/user/dashboard">Dashboard</a></li>
+            <li class="breadcrumb-item active">Hotel Booking</li>
+        </ol>
+    </nav>
+
+    <h1 class="display-5 fw-bold text-warning mb-4">Hotel Booking</h1>
+    <p class="lead text-muted mb-5">Stay near the stadiums during FIFA World Cup 2026</p>
+
+    <div class="row g-4">
+        <div class="col-lg-4">
+            <div class="card shadow">
+                <div class="card-body">
+                    <h5>Grand Hyatt Mexico City</h5>
+                    <p class="text-muted">$420 / night</p>
+                    <button onclick="addHotelToCart()" class="btn btn-warning w-100">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-5 text-center">
+        <a href="/user/cart" class="btn btn-info">View My Cart</a>
+    </div>
+</div>
+
+<script>
+function addHotelToCart() {
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    cart.push({
+        type: "Grand Hyatt Mexico City",
+        price: 420,
+        details: "2 nights (June 10-12, 2026)"
+    });
+    localStorage.setItem('cart', JSON.stringify(cart));
+    alert("✅ Hotel Added to Cart!");
+}
+</script>
+{% endblock %}

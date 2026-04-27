@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block title %}Past Matches - FIFA 2026{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <h1 class="display-5 fw-bold text-secondary mb-4">Past Matches History</h1>
+    <p class="lead text-muted">Famous FIFA World Cup Finals</p>
+
+    <div class="row g-4">
+        <div class="col-lg-6">
+            <div class="card shadow">
+                <div class="card-body">
+                    <p class="text-muted small">2022 World Cup Final</p>
+                    <h5>Argentina 3 - 3 France</h5>
+                    <p class="text-success">Argentina won on penalties</p>
+                    <small class="text-muted">Lusail Stadium, Qatar</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+            <div class="card shadow">
+                <div class="card-body">
+                    <p class="text-muted small">2018 World Cup Final</p>
+                    <h5>France 4 - 2 Croatia</h5>
+                    <p class="text-success">France Champion</p>
+                    <small class="text-muted">Luzhniki Stadium, Russia</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+            <div class="card shadow">
+                <div class="card-body">
+                    <p class="text-muted small">2014 World Cup Final</p>
+                    <h5>Germany 1 - 0 Argentina</h5>
+                    <p class="text-success">Germany Champion</p>
+                    <small class="text-muted">Maracanã Stadium, Brazil</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+            <div class="card shadow">
+                <div class="card-body">
+                    <p class="text-muted small">2010 World Cup Final</p>
+                    <h5>Spain 1 - 0 Netherlands</h5>
+                    <p class="text-success">Spain Champion</p>
+                    <small class="text-muted">Soccer City, South Africa</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-5 text-center">
+        <a href="/user/dashboard" class="btn btn-primary">Back to Dashboard</a>
+    </div>
+</div>
+{% endblock %}

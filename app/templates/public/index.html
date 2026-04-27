@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}FIFA 2026 World Cup - Home{% endblock %}
+
+{% block content %}
+<div class="hero-bg min-vh-100 d-flex align-items-center text-center">
+    <div class="container">
+        <h1 class="display-1 fw-bold fifa-gold mb-4">
+            ⚽ FIFA WORLD CUP 2026
+        </h1>
+        <p class="lead fs-3 mb-5 text-white">
+            United States • Canada • Mexico<br>
+            <span class="fifa-green">June 11 – July 19, 2026</span>
+        </p>
+        
+        <div class="d-flex justify-content-center gap-4">
+            <a href="{{ url_for('auth.login') }}" class="btn btn-success btn-lg px-5 py-3">
+                <i class="fas fa-ticket-alt"></i> Book Tickets Now
+            </a>
+            <a href="#" class="btn btn-outline-light btn-lg px-5 py-3">
+                <i class="fas fa-hotel"></i> Book Hotels
+            </a>
+        </div>
+
+        <div class="mt-5">
+            <h4 class="text-white-50">48 Teams • 16 Cities • 104 Matches</h4>
+        </div>
+    </div>
+</div>
+{% endblock %}

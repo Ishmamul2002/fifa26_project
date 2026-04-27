@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - FIFA 2026{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <!-- Breadcrumb -->
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item active">Dashboard</li>
+        </ol>
+    </nav>
+
+    <h1 class="display-5 fw-bold text-primary text-center mb-5">Welcome to FIFA 2026</h1>
+    <p class="lead text-muted text-center">Your Personal World Cup Hub</p>
+
+    <div class="row g-4 mt-5">
+        <div class="col-lg-4">
+            <div class="card h-100 shadow text-center p-4">
+                <i class="fas fa-calendar-alt fa-4x text-primary mb-3"></i>
+                <h5>Upcoming Matches</h5>
+                <a href="/user/matches/list" class="btn btn-primary w-100 mt-3">Browse Matches</a>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="card h-100 shadow text-center p-4">
+                <i class="fas fa-ticket-alt fa-4x text-success mb-3"></i>
+                <h5>Book Tickets</h5>
+                <a href="/user/tickets/booking" class="btn btn-success w-100 mt-3">Buy Tickets</a>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="card h-100 shadow text-center p-4">
+                <i class="fas fa-hotel fa-4x text-warning mb-3"></i>
+                <h5>Hotel Booking</h5>
+                <a href="/user/hotels/booking" class="btn btn-warning w-100 mt-3">Book Hotels</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

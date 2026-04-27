@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}Reports - FIFA 2026{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <h1 class="display-5 fw-bold text-danger mb-4">Reports & Analytics</h1>
+    <p class="lead text-muted">Sales, Revenue & Match Statistics</p>
+
+    <div class="row g-4 mt-4">
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-body p-5 text-center">
+                    <i class="fas fa-chart-bar fa-4x text-danger mb-4"></i>
+                    <h4>Total Revenue</h4>
+                    <h2 class="text-success">$12,450,000</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-body p-5 text-center">
+                    <i class="fas fa-ticket-alt fa-4x text-success mb-4"></i>
+                    <h4>Tickets Sold</h4>
+                    <h2 class="text-success">248,750</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

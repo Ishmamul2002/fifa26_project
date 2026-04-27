@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Dashboard - FIFA 2026{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row mb-5">
+        <div class="col-12">
+            <h1 class="display-5 fw-bold text-danger">👨‍💼 Admin Control Panel</h1>
+            <p class="lead text-muted">Full Management of FIFA 2026 World Cup System</p>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <!-- Users Management -->
+        <div class="col-lg-3 col-md-6">
+            <div class="card border-0 shadow h-100 text-center p-4">
+                <i class="fas fa-users fa-4x text-primary mb-4"></i>
+                <h5>User Management</h5>
+                <p class="text-muted small">Add, edit, delete users & roles</p>
+                <a href="#" class="btn btn-primary w-100 mt-auto">Manage Users</a>
+            </div>
+        </div>
+
+        <!-- Matches Management -->
+        <div class="col-lg-3 col-md-6">
+            <div class="card border-0 shadow h-100 text-center p-4">
+                <i class="fas fa-futbol fa-4x text-success mb-4"></i>
+                <h5>Matches</h5>
+                <p class="text-muted small">Create, edit, delete matches</p>
+                <a href="#" class="btn btn-success w-100 mt-auto">Manage Matches</a>
+            </div>
+        </div>
+
+        <!-- Tickets Management -->
+        <div class="col-lg-3 col-md-6">
+            <div class="card border-0 shadow h-100 text-center p-4">
+                <i class="fas fa-ticket-alt fa-4x text-warning mb-4"></i>
+                <h5>Tickets</h5>
+                <p class="text-muted small">Inventory, status & sales</p>
+                <a href="#" class="btn btn-warning w-100 mt-auto">Manage Tickets</a>
+            </div>
+        </div>
+
+        <!-- Hotels Management -->
+        <div class="col-lg-3 col-md-6">
+            <div class="card border-0 shadow h-100 text-center p-4">
+                <i class="fas fa-hotel fa-4x text-info mb-4"></i>
+                <h5>Hotels</h5>
+                <p class="text-muted small">Hotels, rooms & availability</p>
+                <a href="#" class="btn btn-info w-100 mt-auto">Manage Hotels</a>
+            </div>
+        </div>
+
+        <!-- Reports -->
+        <div class="col-lg-3 col-md-6">
+            <div class="card border-0 shadow h-100 text-center p-4">
+                <i class="fas fa-chart-bar fa-4x text-danger mb-4"></i>
+                <h5>Reports & Analytics</h5>
+                <p class="text-muted small">Revenue, sales & trends</p>
+                <a href="#" class="btn btn-danger w-100 mt-auto">View Reports</a>
+            </div>
+        </div>
+
+        <!-- Teams & Players -->
+        <div class="col-lg-3 col-md-6">
+            <div class="card border-0 shadow h-100 text-center p-4">
+                <i class="fas fa-users-cog fa-4x text-secondary mb-4"></i>
+                <h5>Teams & Players</h5>
+                <p class="text-muted small">Manage teams and player data</p>
+                <a href="#" class="btn btn-secondary w-100 mt-auto">Manage Teams</a>
+            </div>
+        </div>
+
+        <!-- Stadiums -->
+        <div class="col-lg-3 col-md-6">
+            <div class="card border-0 shadow h-100 text-center p-4">
+                <i class="fas fa-stadium fa-4x text-info mb-4"></i>
+                <h5>Stadiums</h5>
+                <p class="text-muted small">Venue management</p>
+                <a href="#" class="btn btn-info w-100 mt-auto">Manage Stadiums</a>
+            </div>
+        </div>
+
+        <!-- System Settings -->
+        <div class="col-lg-3 col-md-6">
+            <div class="card border-0 shadow h-100 text-center p-4">
+                <i class="fas fa-cogs fa-4x text-dark mb-4"></i>
+                <h5>System Settings</h5>
+                <p class="text-muted small">Configuration & maintenance</p>
+                <a href="#" class="btn btn-dark w-100 mt-auto">Settings</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-5 text-center">
+        <small class="text-muted">Logged in as: <strong>Admin</strong> | Full Access</small>
+    </div>
+</div>
+{% endblock %}

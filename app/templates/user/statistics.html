@@ -1,0 +1,154 @@
+{% extends "base.html" %}
+
+{% block title %}Team Statistics - FIFA 2026{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <h1 class="display-5 fw-bold text-secondary mb-4">Team Statistics & Head-to-Head Records</h1>
+    <p class="lead text-muted">Detailed analytics from past FIFA World Cups</p>
+
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <select id="teamSelect" class="form-select form-select-lg" onchange="loadTeamStats()">
+                <option value="">Select a Team</option>
+                <option value="Argentina">Argentina</option>
+                <option value="Brazil">Brazil</option>
+                <option value="France">France</option>
+                <option value="Germany">Germany</option>
+                <option value="Spain">Spain</option>
+                <option value="Italy">Italy</option>
+            </select>
+        </div>
+    </div>
+
+    <div id="statsContainer" class="row">
+        <!-- Filled by JavaScript -->
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+const teamData = {
+    "Argentina": {
+        matches: 28,
+        wins: 15,
+        draws: 7,
+        losses: 6,
+        goalsScored: 48,
+        goalsConceded: 32,
+        winRate: 53.6,
+        recent: [
+            "2022: Argentina 3-3 France (Penalties)",
+            "2014: Germany 1-0 Argentina",
+            "1986: Argentina 3-2 West Germany"
+        ]
+    },
+    "Brazil": {
+        matches: 32,
+        wins: 18,
+        draws: 8,
+        losses: 6,
+        goalsScored: 62,
+        goalsConceded: 28,
+        winRate: 56.3,
+        recent: [
+            "2002: Brazil 2-0 Germany",
+            "1998: France 3-0 Brazil",
+            "1994: Brazil 0-0 Italy (Penalties)"
+        ]
+    },
+    "France": {
+        matches: 25,
+        wins: 14,
+        draws: 5,
+        losses: 6,
+        goalsScored: 52,
+        goalsConceded: 31,
+        winRate: 56,
+        recent: [
+            "2018: France 4-2 Croatia",
+            "2022: France 3-3 Argentina (Penalties)",
+            "1998: France 3-0 Brazil"
+        ]
+    }
+};
+
+function loadTeamStats() {
+    const team = document.getElementById('teamSelect').value;
+    if (!team) return;
+
+    const data = teamData[team];
+    const container = document.getElementById('statsContainer');
+
+    let html = `
+        <div class="col-12">
+            <h3>${team} - Historical Performance</h3>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="card shadow">
+                        <div class="card-body text-center">
+                            <h2 class="text-primary">${data.matches}</h2>
+                            <p class="text-muted">Matches Played</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card shadow">
+                        <div class="card-body text-center">
+                            <h2 class="text-success">${data.wins}</h2>
+                            <p class="text-muted">Wins</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card shadow">
+                        <div class="card-body text-center">
+                            <h2 class="text-danger">${data.losses}</h2>
+                            <p class="text-muted">Losses</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-4">
+                <div class="col-md-6">
+                    <canvas id="winPieChart" height="250"></canvas>
+                </div>
+                <div class="col-md-6">
+                    <canvas id="goalsBarChart" height="250"></canvas>
+                </div>
+            </div>
+        </div>
+    `;
+
+    container.innerHTML = html;
+
+    // Pie Chart - Win Distribution
+    new Chart(document.getElementById('winPieChart'), {
+        type: 'pie',
+        data: {
+            labels: ['Wins', 'Draws', 'Losses'],
+            datasets: [{
+                data: [data.wins, data.draws, data.losses],
+                backgroundColor: ['#28a745', '#ffc107', '#dc3545']
+            }]
+        },
+        options: { responsive: true }
+    });
+
+    // Bar Chart - Goals
+    new Chart(document.getElementById('goalsBarChart'), {
+        type: 'bar',
+        data: {
+            labels: ['Goals Scored', 'Goals Conceded'],
+            datasets: [{
+                label: 'Goals',
+                data: [data.goalsScored, data.goalsConceded],
+                backgroundColor: ['#0d6efd', '#dc3545']
+            }]
+        },
+        options: { responsive: true }
+    });
+}
+</script>
+{% endblock %}

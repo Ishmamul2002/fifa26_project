@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}Payment Successful - FIFA 2026{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-6 text-center">
+            <div class="card shadow border-0">
+                <div class="card-body p-5">
+                    <i class="fas fa-check-circle fa-6x text-success mb-4"></i>
+                    <h2 class="text-success fw-bold">Payment Successful!</h2>
+                    <p class="lead mt-3">Thank you for your purchase.</p>
+                    
+                    <div class="bg-light p-4 rounded mt-4">
+                        <p><strong>Transaction ID:</strong> #PAY-2026-78421</p>
+                        <p><strong>Amount Paid:</strong> $990</p>
+                        <p><strong>Status:</strong> <span class="text-success">Completed</span></p>
+                    </div>
+
+                    <div class="mt-5">
+                        <a href="/user/dashboard" class="btn btn-primary btn-lg px-5">Go to Dashboard</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

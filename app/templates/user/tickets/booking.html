@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block title %}Book Tickets - FIFA 2026{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <h1 class="display-5 fw-bold text-success mb-4">Book Tickets</h1>
+    <p class="lead text-muted mb-5">Mexico vs South Korea • June 11, 2026 • 21:00 • Estadio Azteca</p>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="card shadow">
+                <div class="card-body p-5">
+                    <h4 class="mb-4">Select Ticket Type & Quantity</h4>
+
+                    <div class="row g-4">
+                        <div class="col-md-4">
+                            <div class="card border-success h-100">
+                                <div class="card-body text-center">
+                                    <h5>Standard</h5>
+                                    <h3 class="text-success">$150</h3>
+                                    <input type="number" id="qty-standard" value="1" min="1" class="form-control text-center my-3">
+                                    <button onclick="addToCart('Standard Ticket', 150, 'qty-standard')" class="btn btn-success w-100">Add to Cart</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="card border-warning h-100">
+                                <div class="card-body text-center">
+                                    <h5>VIP</h5>
+                                    <h3 class="text-warning">$480</h3>
+                                    <input type="number" id="qty-vip" value="1" min="1" class="form-control text-center my-3">
+                                    <button onclick="addToCart('VIP Ticket', 480, 'qty-vip')" class="btn btn-warning w-100">Add to Cart</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="card border-danger h-100">
+                                <div class="card-body text-center">
+                                    <h5>Premium</h5>
+                                    <h3 class="text-danger">$920</h3>
+                                    <input type="number" id="qty-premium" value="1" min="1" class="form-control text-center my-3">
+                                    <button onclick="addToCart('Premium Ticket', 920, 'qty-premium')" class="btn btn-danger w-100">Add to Cart</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-5 text-center">
+                        <a href="/user/cart" class="btn btn-info btn-lg px-5">View My Cart</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function addToCart(ticketType, pricePerTicket, qtyId) {
+    const quantity = parseInt(document.getElementById(qtyId).value) || 1;
+    const totalPrice = pricePerTicket * quantity;
+
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    cart.push({
+        type: `${quantity} x ${ticketType}`,
+        price: totalPrice,
+        details: "Mexico vs South Korea - June 11, 2026"
+    });
+
+    localStorage.setItem('cart', JSON.stringify(cart));
+    alert(`✅ Added to Cart!\n${quantity} x ${ticketType}\nTotal: $${totalPrice}`);
+}
+</script>
+{% endblock %}

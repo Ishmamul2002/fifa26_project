@@ -1,0 +1,39 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
+    <div class="container">
+        <!-- Logo + FIFA -->
+        <a class="navbar-brand d-flex align-items-center" href="/user/dashboard">
+            <img src="{{ url_for('static', filename='images/fifa-logo.png') }}" 
+                 alt="FIFA" height="45" class="me-2">
+            <span class="fw-bold">FIFA 2026</span>
+        </a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/user/dashboard">Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/user/matches/list">Upcoming Matches</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/user/tickets/booking">Book Tickets</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/user/hotels/booking">Book Hotels</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/user/cart">My Cart</a>
+                </li>
+            </ul>
+
+            <div class="d-flex">
+                <a href="/user/dashboard" class="btn btn-light me-2">🏠 Dashboard</a>
+                <a href="/auth/logout" class="btn btn-outline-light">Logout</a>
+            </div>
+        </div>
+    </div>
+</nav>

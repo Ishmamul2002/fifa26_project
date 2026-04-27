@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}FIFA 2026{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-blue: #1e40af;
+        }
+        body {
+            background: linear-gradient(135deg, #e0f2fe 0%, #f0f9ff 100%);
+            font-family: 'Segoe UI', sans-serif;
+            transition: background 0.4s, color 0.4s;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .dark-mode {
+            background: #0f172a;
+            color: #e2e8f0;
+        }
+        .navbar {
+            background-color: var(--primary-blue) !important;
+        }
+        .main-content {
+            flex: 1;
+            padding-top: 30px;
+        }
+        .dashboard-title {
+            font-size: 2.8rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, #1e40af, #3b82f6);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .dark-mode .dashboard-title {
+            background: linear-gradient(90deg, #60a5fa, #93c5fd);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        footer {
+            margin-top: auto;
+        }
+    </style>
+</head>
+<body>
+    <!-- Modern Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark shadow-sm">
+        <div class="container">
+            <!-- Logo -->
+            <a class="navbar-brand fw-bold d-flex align-items-center" href="/user/dashboard">
+                <img id="fifa-logo" src="{{ url_for('static', filename='images/fifa-logo.png') }}" 
+                     alt="FIFA 2026" height="48" class="me-2">
+                <span>FIFA 2026</span>
+            </a>
+
+            <!-- Search Bar -->
+            <div class="mx-auto" style="max-width: 420px;">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Search matches, teams, hotels..." 
+                           style="border-radius: 50px 0 0 50px;">
+                    <button class="btn btn-light" style="border-radius: 0 50px 50px 0;">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Right Side -->
+            <div class="d-flex align-items-center gap-3">
+                <a href="/user/dashboard" class="btn btn-light fw-semibold">🏠 Dashboard</a>
+                
+                <!-- Account Dropdown -->
+                <div class="dropdown">
+                    <button class="btn btn-light dropdown-toggle d-flex align-items-center gap-2" type="button" data-bs-toggle="dropdown">
+                        <i class="fas fa-user"></i>
+                        <span>Account</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="/user/profile">My Profile</a></li>
+                        <li><a class="dropdown-item" href="/user/cart">My Cart</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item text-danger" href="/auth/logout">Logout</a></li>
+                    </ul>
+                </div>
+
+                <!-- Theme Switcher -->
+                <button onclick="toggleTheme()" class="btn btn-light" title="Toggle Theme">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer at the very bottom -->
+    <footer class="bg-dark text-white py-4 mt-auto">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-4">
+                    <p class="mb-1 fw-bold">FIFA World Cup 2026</p>
+                    <p class="small text-white-50 mb-0">Ticket & Hospitality Management System</p>
+                </div>
+                <div class="col-md-4 text-center">
+                    <div class="d-flex justify-content-center gap-4">
+                        <a href="#" class="text-white"><i class="fab fa-facebook fa-2x"></i></a>
+                        <a href="#" class="text-white"><i class="fab fa-instagram fa-2x"></i></a>
+                        <a href="#" class="text-white"><i class="fab fa-youtube fa-2x"></i></a>
+                        <a href="#" class="text-white"><i class="fab fa-x-twitter fa-2x"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-4 text-md-end small text-white-50">
+                    © 2026 FIFA. All rights reserved.
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function toggleTheme() {
+            document.body.classList.toggle('dark-mode');
+            const icon = document.querySelector('.fa-moon');
+            if (icon) {
+                icon.classList.toggle('fa-moon');
+                icon.classList.toggle('fa-sun');
+            }
+        }
+    </script>
+</body>
+</html>

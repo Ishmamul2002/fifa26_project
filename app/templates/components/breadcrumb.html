@@ -1,0 +1,24 @@
+{% macro breadcrumb(page) %}
+<nav aria-label="breadcrumb" class="mb-4">
+    <ol class="breadcrumb bg-light p-3 rounded">
+        <li class="breadcrumb-item">
+            <a href="/user/dashboard">Dashboard</a>
+        </li>
+        
+        {% if page == 'matches' %}
+            <li class="breadcrumb-item active">Upcoming Matches</li>
+        {% elif page == 'tickets' %}
+            <li class="breadcrumb-item"><a href="/user/matches/list">Upcoming Matches</a></li>
+            <li class="breadcrumb-item active">Book Tickets</li>
+        {% elif page == 'hotels' %}
+            <li class="breadcrumb-item active">Hotel Booking</li>
+        {% elif page == 'cart' %}
+            <li class="breadcrumb-item active">My Cart</li>
+        {% elif page == 'history' %}
+            <li class="breadcrumb-item active">Past Matches</li>
+        {% elif page == 'reports' %}
+            <li class="breadcrumb-item active">Reports</li>
+        {% endif %}
+    </ol>
+</nav>
+{% endmacro %}
