@@ -1,22 +1,24 @@
-from flask_sqlalchemy import SQLAlchemy
+from app import db
 from flask_login import UserMixin
 from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
 
-db = SQLAlchemy()
-
 # ========================= USER MODEL =========================
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
+    
     user_id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100), nullable=False)
+    username = db.Column(db.String(100), nullable=False)
     email = db.Column(db.String(100), unique=True, nullable=False)
     password_hash = db.Column(db.String(255), nullable=False)
-    country = db.Column(db.String(60))
+    is_admin = db.Column(db.Boolean, default=False)
     phone = db.Column(db.String(20))
-    role = db.Column(db.String(20), default='user')
-    total_purchases = db.Column(db.Float, default=0.0)
+    country = db.Column(db.String(60))
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+    # IMPORTANT: Add this method
+    def get_id(self):
+        return str(self.user_id)
 
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
@@ -24,9 +26,8 @@ class User(UserMixin, db.Model):
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
 
-    def is_admin(self):
-        return self.role == 'admin'
-
+    def is_admin_user(self):
+        return self.is_admin
 # ========================= OTHER MODELS =========================
 class Team(db.Model):
     __tablename__ = 'teams'
@@ -100,6 +101,23 @@ class Payment(db.Model):
     payment_method = db.Column(db.String(50))  # card, bkash, nagad, cash, paypal
     status = db.Column(db.String(20), default='pending')
     transaction_id = db.Column(db.String(100))
+
+
+class LiveMatchAnalytics(db.Model):
+    __tablename__ = 'live_match_analytics'
+    
+    analytics_id = db.Column(db.Integer, primary_key=True)
+    match_id = db.Column(db.Integer, db.ForeignKey('matches.match_id'))
+    current_minute = db.Column(db.Integer)
+    possession_team1 = db.Column(db.Integer)
+    possession_team2 = db.Column(db.Integer)
+    team1_score = db.Column(db.Integer)
+    team2_score = db.Column(db.Integer)
+    last_updated = db.Column(db.DateTime, default=datetime.utcnow)
+
+
+
+
 
 
 

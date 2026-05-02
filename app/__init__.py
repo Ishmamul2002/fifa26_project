@@ -1,61 +1,46 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
+from flask_login import LoginManager
+
 
 db = SQLAlchemy()
 migrate = Migrate()
+login_manager = LoginManager()
 
 def create_app():
     app = Flask(__name__)
     app.config.from_object('app.config.Config')
 
+    # Initialize extensions
     db.init_app(app)
     migrate.init_app(app, db)
+    login_manager.init_app(app)
+    login_manager.login_view = 'auth.login'
 
-    # Core Blueprints
+    # Register Blueprints
     from .routes.main import main_bp
+    from .routes.auth import auth_bp
     from .routes.user.dashboard import user_bp
     from .routes.admin.dashboard import admin_bp
+    from .routes.user.analytics import analytics_bp
 
     app.register_blueprint(main_bp)
+    app.register_blueprint(auth_bp, url_prefix='/auth')
     app.register_blueprint(user_bp)
     app.register_blueprint(admin_bp)
+    app.register_blueprint(analytics_bp)
 
+    # User Loader
+    @login_manager.user_loader
+    def load_user(user_id):
+        from .models import User
+        return User.query.get(int(user_id))
 
-    # Cart Route
-    try:
-        from .routes.user.cart import user_cart_bp
-        app.register_blueprint(user_cart_bp)
-        print("✅ Cart route registered")
-    except ImportError:
-        print("⚠️ Cart route not found yet")
-
-    # Upcoming Matches Route
-    try:
-        from .routes.user.matches import user_matches_bp
-        app.register_blueprint(user_matches_bp)
-        print("✅ Upcoming Matches route registered")
-    except ImportError:
-        print("⚠️ Upcoming Matches route not found yet")
-
-    # Ticket Booking Route
-    try:
-        from .routes.user.tickets import user_tickets_bp
-        app.register_blueprint(user_tickets_bp)
-        print("✅ Ticket booking route registered")
-    except ImportError:
-        print("⚠️ Ticket booking route not found yet")
-
-    # Hotel Booking Route
-    try:
-        from .routes.user.hotel import user_hotels_bp
-        app.register_blueprint(user_hotels_bp)
-        print("✅ Hotel booking route registered")
-    except ImportError:
-        print("⚠️ Hotel booking route not found yet")
-
+    # Create tables
     with app.app_context():
+        from . import models
         db.create_all()
 
-    print("✅ FIFA 2026 App started - Clean mode (Tickets + Hotels)")
+    print("✅ FIFA 2026 App started successfully!")
     return app

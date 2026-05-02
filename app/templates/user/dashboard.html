@@ -4,36 +4,103 @@
 
 {% block content %}
 <div class="container py-5">
-    <!-- Breadcrumb -->
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item active">Dashboard</li>
+            <li class="breadcrumb-item active">FIFA hub</li>
         </ol>
     </nav>
 
-    <h1 class="display-5 fw-bold text-primary text-center mb-5">Welcome to FIFA 2026</h1>
-    <p class="lead text-muted text-center">Your Personal World Cup Hub</p>
-
+    <h1 class="display-5 fw-bold text-primary text-center mb-5">Welcome to FIFA World Cup 2026</h1>
     <div class="row g-4 mt-5">
-        <div class="col-lg-4">
+        <!-- Row 1 -->
+        <div class="col-lg-4 col-md-6">
             <div class="card h-100 shadow text-center p-4">
                 <i class="fas fa-calendar-alt fa-4x text-primary mb-3"></i>
                 <h5>Upcoming Matches</h5>
-                <a href="/user/matches/list" class="btn btn-primary w-100 mt-3">Browse Matches</a>
+                <a href="/user/matches" class="btn btn-primary w-100 mt-3">Browse Matches</a>
             </div>
         </div>
-        <div class="col-lg-4">
+        <div class="col-lg-4 col-md-6">
             <div class="card h-100 shadow text-center p-4">
                 <i class="fas fa-ticket-alt fa-4x text-success mb-3"></i>
                 <h5>Book Tickets</h5>
-                <a href="/user/tickets/booking" class="btn btn-success w-100 mt-3">Buy Tickets</a>
+                <a href="/user/tickets" class="btn btn-success w-100 mt-3">Buy Tickets</a>
             </div>
         </div>
-        <div class="col-lg-4">
+        <div class="col-lg-4 col-md-6">
             <div class="card h-100 shadow text-center p-4">
                 <i class="fas fa-hotel fa-4x text-warning mb-3"></i>
                 <h5>Hotel Booking</h5>
-                <a href="/user/hotels/booking" class="btn btn-warning w-100 mt-3">Book Hotels</a>
+                <a href="/user/hotels" class="btn btn-warning w-100 mt-3">Book Hotels</a>
+            </div>
+        </div>
+
+        <!-- Row 2 -->
+        <div class="col-lg-4 col-md-6">
+            <div class="card h-100 shadow text-center p-4">
+                <i class="fas fa-users fa-3x text-info mb-3"></i>
+                <h5>Team Hub</h5>
+                <a href="/user/teams" class="btn btn-info w-100 mt-3">Explore Teams</a>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+            <div class="card h-100 shadow text-center p-4">
+                <i class="fas fa-user-circle fa-3x text-primary mb-3"></i>
+                <h5>Player Cards</h5>
+                <a href="/user/players" class="btn btn-primary w-100 mt-3">View Players</a>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+            <div class="card h-100 shadow text-center p-4">
+                <i class="fas fa-chart-line fa-3x text-success mb-3"></i>
+                <h5>Live Analytics</h5>
+                <a href="/user/analytics" class="btn btn-success w-100 mt-3">Live Stats</a>
+            </div>
+        </div>
+
+        <!-- Row 3 -->
+        <div class="col-lg-4 col-md-6">
+            <div class="card h-100 shadow text-center p-4">
+                <i class="fas fa-trophy fa-3x text-warning mb-3"></i>
+                <h5>Leaderboard</h5>
+                <a href="/user/leaderboard" class="btn btn-warning w-100 mt-3">View Rankings</a>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+            <div class="card h-100 shadow text-center p-4">
+                <i class="fas fa-comments fa-3x text-purple mb-3"></i>
+                <h5>Fan Zone</h5>
+                <a href="/user/fanzone" class="btn btn-purple w-100 mt-3">Join Community</a>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+            <div class="card h-100 shadow text-center p-4">
+                <i class="fas fa-video fa-3x text-danger mb-3"></i>
+                <h5>Highlights Reels</h5>
+                <a href="/user/highlights" class="btn btn-danger w-100 mt-3">Watch Highlights</a>
+            </div>
+        </div>
+
+        <!-- Row 4 -->
+        <div class="col-lg-4 col-md-6">
+            <div class="card h-100 shadow text-center p-4">
+                <i class="fas fa-qrcode fa-3x text-dark mb-3"></i>
+                <h5>My Tickets</h5>
+                <a href="/user/my-tickets" class="btn btn-dark w-100 mt-3">QR Codes</a>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+            <div class="card h-100 shadow text-center p-4">
+                <i class="fas fa-crystal-ball fa-3x text-info mb-3"></i>
+                <h5>Match Predictor</h5>
+                <a href="/user/predictor" class="btn btn-info w-100 mt-3">Predict Matches</a>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+            <div class="card h-100 shadow text-center p-4">
+                <i class="fas fa-headset fa-3x text-secondary mb-3"></i>
+                <h5>Help Desk</h5>
+                <a href="/user/help" class="btn btn-secondary w-100 mt-3">Get Support</a>
             </div>
         </div>
     </div>

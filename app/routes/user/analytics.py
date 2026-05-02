@@ -1,9 +1,11 @@
 from flask import Blueprint, render_template
 from flask_login import login_required
 
-user_analytics_bp = Blueprint('user_analytics', __name__, url_prefix='/user/analytics')
+analytics_bp = Blueprint('analytics', __name__, url_prefix='/user')
 
-@user_analytics_bp.route('/')
+@analytics_bp.route('/analytics')
 @login_required
 def analytics():
-    return render_template('user/analytics.html')
+    from app.models import LiveMatchAnalytics
+    live_data = LiveMatchAnalytics.query.all()
+    return render_template('user/analytics.html', live_data=live_data)
