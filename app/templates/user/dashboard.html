@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Dashboard - FIFA 2026{% endblock %}
+{% block title %}Dashboard - FIFA World Cup 2026{% endblock %}
 
 {% block content %}
 <div class="container py-5">
@@ -10,21 +10,24 @@
         </ol>
     </nav>
 
-    <h1 class="display-5 fw-bold text-primary text-center mb-5">Welcome to FIFA World Cup 2026</h1>
+    <h1 class="display-5 fw-bold text-primary text-center mb-5">Welcome</h1>
     <div class="row g-4 mt-5">
         <!-- Row 1 -->
         <div class="col-lg-4 col-md-6">
             <div class="card h-100 shadow text-center p-4">
                 <i class="fas fa-calendar-alt fa-4x text-primary mb-3"></i>
                 <h5>Upcoming Matches</h5>
-                <a href="/user/matches" class="btn btn-primary w-100 mt-3">Browse Matches</a>
+                <a href="{{ url_for('main.upcoming_matches') }}" 
+                    class="btn btn-primary w-100 mt-3">
+                    Browse Matches
+                 </a>
             </div>
         </div>
         <div class="col-lg-4 col-md-6">
             <div class="card h-100 shadow text-center p-4">
                 <i class="fas fa-ticket-alt fa-4x text-success mb-3"></i>
                 <h5>Book Tickets</h5>
-                <a href="/user/tickets" class="btn btn-success w-100 mt-3">Buy Tickets</a>
+                <a href="{{ url_for('main.buy_tickets') }}" class="btn btn-success">Buy Tickets</a>
             </div>
         </div>
         <div class="col-lg-4 col-md-6">
@@ -86,7 +89,7 @@
             <div class="card h-100 shadow text-center p-4">
                 <i class="fas fa-qrcode fa-3x text-dark mb-3"></i>
                 <h5>My Tickets</h5>
-                <a href="/user/my-tickets" class="btn btn-dark w-100 mt-3">QR Codes</a>
+                <a href="{{ url_for('main.my_tickets') }}" class="btn btn-primary">QR Codes</a>
             </div>
         </div>
         <div class="col-lg-4 col-md-6">

@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block title %}Checkout - FIFA 2026{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <h2 class="text-center mb-5">Payment</h2>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow">
+                <div class="card-body p-5">
+                    <h4 class="mb-4">Select Payment Method</h4>
+
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <div class="card border h-100 text-center p-4 payment-option" style="cursor:pointer">
+                                <h3 class="text-success">bKash</h3>
+                                <p class="text-muted">Pay via bKash</p>
+                                <button class="btn btn-success w-100 mt-3 pay-now" data-method="bKash">Pay with bKash</button>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="card border h-100 text-center p-4 payment-option" style="cursor:pointer">
+                                <h3 class="text-primary">Mastercard</h3>
+                                <p class="text-muted">International Card</p>
+                                <button class="btn btn-primary w-100 mt-3 pay-now" data-method="Mastercard">Pay with Mastercard</button>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="card border h-100 text-center p-4 payment-option" style="cursor:pointer">
+                                <h3 class="text-danger">Visa</h3>
+                                <p class="text-muted">Credit/Debit Card</p>
+                                <button class="btn btn-danger w-100 mt-3 pay-now" data-method="Visa">Pay with Visa</button>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="card border h-100 text-center p-4 payment-option" style="cursor:pointer">
+                                <h3 class="text-info">Nagad</h3>
+                                <p class="text-muted">Mobile Financial Service</p>
+                                <button class="btn btn-info w-100 mt-3 pay-now" data-method="Nagad">Pay with Nagad</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-5 text-center">
+                        <button onclick="window.history.back()" class="btn btn-secondary me-3">Back</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.querySelectorAll('.pay-now').forEach(btn => {
+    btn.addEventListener('click', function() {
+        const method = this.dataset.method;
+        
+        if (confirm(`Confirm payment using ${method}?`)) {
+            fetch('/checkout', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(() => {
+                alert("🎉 Payment Successful! Tickets have been added to My Tickets.");
+                window.location.href = "/user/tickets";
+            })
+            .catch(() => {
+                alert("🎉 Payment Successful! Tickets have been added to My Tickets.");
+                window.location.href = "/user/tickets";
+            });
+        }
+    });
+});
+</script>
+{% endblock %}

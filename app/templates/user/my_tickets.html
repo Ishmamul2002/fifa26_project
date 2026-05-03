@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %}My Tickets - FIFA 2026{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <h2 class="mb-5 text-center">🎟️ My Tickets ({{ tickets|length }})</h2>
+
+    {% if tickets %}
+        <div class="row">
+            {% for ticket in tickets %}
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="card shadow h-100">
+                    <div class="card-body text-center">
+                        <h5>
+                            {{ ticket.match.team_a.name if ticket.match else 'Match' }} 
+                            VS 
+                            {{ ticket.match.team_b.name if ticket.match else 'Match' }}
+                        </h5>
+                        <p><strong>{{ ticket.quantity }} × {{ ticket.ticket_type or 'Ticket' }}</strong></p>
+                        <p class="text-success">Paid: ${{ ticket.price }}</p>
+                        
+                        {% if ticket.qr_code %}
+                            <div class="mt-3 p-3 border bg-white">
+                                <img src="/static/{{ ticket.qr_code }}" 
+                                     alt="QR Code" 
+                                     class="img-fluid" 
+                                     style="max-width: 200px; border: 1px solid #ddd;">
+                                <p class="small text-muted mt-2">{{ ticket.qr_code }}</p>
+                            </div>
+                        {% else %}
+                            <p class="text-muted">QR Code not generated yet</p>
+                        {% endif %}
+                    </div>
+                    <div class="card-footer text-center">
+                        {% if ticket.qr_code %}
+                            <a href="/static/{{ ticket.qr_code }}" 
+                               class="btn btn-success" download>
+                                Download QR Code
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="text-center py-5">
+            <h4>You haven't purchased any tickets yet.</h4>
+            <a href="/buy-tickets" class="btn btn-primary">Buy Tickets Now</a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

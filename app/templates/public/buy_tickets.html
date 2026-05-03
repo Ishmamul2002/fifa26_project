@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block title %}Buy Tickets - FIFA 2026{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <h1 class="text-center mb-5">Buy Tickets</h1>
+
+    <div class="row justify-content-center mb-5">
+        <div class="col-lg-6">
+            <form method="GET" class="d-flex">
+                <input type="text" name="search" class="form-control form-control-lg" 
+                       placeholder="Search by team name" value="{{ request.args.get('search', '') }}">
+                <button type="submit" class="btn btn-primary btn-lg ms-2">Search</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="row">
+        {% if matches %}
+            {% for match in matches %}
+            <div class="col-lg-6 col-xl-4 mb-4">
+                <div class="card h-100 shadow">
+                    <div class="card-body">
+                        <div class="text-center mb-3">
+                            <span class="badge bg-warning">{{ match.date.strftime('%d %b %Y') }}</span>
+                            <span class="badge bg-info ms-2">{{ match.time.strftime('%H:%M') if match.time else 'N/A' }}</span>
+                        </div>
+                        <h5 class="text-center">{{ match.team_a.name }} <span class="text-danger">VS</span> {{ match.team_b.name }}</h5>
+                        <p class="text-center text-muted small">{{ match.venue or 'N/A' }}</p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="{{ url_for('main.book_ticket', match_id=match.match_id) }}" 
+                           class="btn btn-success w-100 mb-2">
+                            View All Tickets & Buy
+                        </a>
+                        <button class="btn btn-outline-primary w-100 quick-add" 
+                                data-match-id="{{ match.match_id }}"
+                                data-match-name="{{ match.team_a.name }} vs {{ match.team_b.name }}">
+                            Quick Add VIP Ticket
+                        </button>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <p class="text-center">No matches found.</p>
+        {% endif %}
+    </div>
+</div>
+
+<script>
+document.querySelectorAll('.quick-add').forEach(button => {
+    button.addEventListener('click', function() {
+        const matchId = this.dataset.matchId;
+        const matchName = this.dataset.matchName;
+
+        fetch('/add-to-cart', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                match_id: parseInt(matchId),
+                category: 'VIP',
+                quantity: 1,
+                price: 299
+            })
+        })
+        .then(r => r.json())
+        .then(data => {
+            if (data.success) {
+                alert("✅ 1 VIP ticket for " + matchName + " added to cart!");
+            } else {
+                alert("Failed to add");
+            }
+        });
+    });
+});
+</script>
+{% endblock %}

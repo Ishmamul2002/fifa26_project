@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+
+{% block title %}Book Tickets - {{ match.team_a.name }} vs {{ match.team_b.name }}{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-11">
+            
+            <!-- Match Header -->
+            <div class="card shadow mb-5">
+                <div class="card-body text-center p-5 bg-primary text-white rounded-3">
+                    <h2 class="mb-2">{{ match.team_a.name }} <span class="text-danger">VS</span> {{ match.team_b.name }}</h2>
+                    <h5>{{ match.date.strftime('%d %B %Y') }} • {{ match.time.strftime('%H:%M') if match.time else 'Time: N/A' }}</h5>
+                    <p><strong>Venue:</strong> {{ match.venue or 'N/A' }}</p>
+                </div>
+            </div>
+
+            <input type="hidden" id="match-id" value="{{ match.match_id }}">
+
+            <h3 class="mb-4 text-center">Choose Ticket Category</h3>
+
+            <div class="row g-4">
+                <!-- VIP -->
+                <div class="col-md-4">
+                    <div class="card h-100 shadow border-success">
+                        <div class="card-header bg-success text-white text-center"><h5>VIP Category</h5></div>
+                        <div class="card-body text-center">
+                            <h3 class="text-success">$299</h3>
+                            <p class="text-muted">Best seats + Hospitality</p>
+                            <p><strong>Available:</strong> 48</p>
+                            <select class="form-select mb-3 qty-select" data-category="VIP" data-price="299">
+                                <option value="1">1 Ticket</option>
+                                <option value="2">2 Tickets</option>
+                                <option value="3">3 Tickets</option>
+                                <option value="4">4 Tickets (Max)</option>
+                            </select>
+                            <button class="btn btn-success w-100 add-to-cart">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Premium -->
+                <div class="col-md-4">
+                    <div class="card h-100 shadow border-primary">
+                        <div class="card-header bg-primary text-white text-center"><h5>Premium</h5></div>
+                        <div class="card-body text-center">
+                            <h3 class="text-primary">$149</h3>
+                            <p class="text-muted">Good view + Comfort</p>
+                            <p><strong>Available:</strong> 120</p>
+                            <select class="form-select mb-3 qty-select" data-category="Premium" data-price="149">
+                                <option value="1">1 Ticket</option>
+                                <option value="2">2 Tickets</option>
+                                <option value="3">3 Tickets</option>
+                                <option value="4">4 Tickets (Max)</option>
+                            </select>
+                            <button class="btn btn-primary w-100 add-to-cart">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Economy -->
+                <div class="col-md-4">
+                    <div class="card h-100 shadow">
+                        <div class="card-header bg-secondary text-white text-center"><h5>Economy</h5></div>
+                        <div class="card-body text-center">
+                            <h3>$79</h3>
+                            <p class="text-muted">Standard seating</p>
+                            <p><strong>Available:</strong> 320</p>
+                            <select class="form-select mb-3 qty-select" data-category="Economy" data-price="79">
+                                <option value="1">1 Ticket</option>
+                                <option value="2">2 Tickets</option>
+                                <option value="3">3 Tickets</option>
+                                <option value="4">4 Tickets (Max)</option>
+                            </select>
+                            <button class="btn btn-secondary w-100 add-to-cart">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-5 p-4 border rounded bg-light">
+                <h5>Your Selected Tickets <span class="badge bg-primary" id="cart-count">0</span></h5>
+                <div id="cart-items"></div>
+                <a href="{{ url_for('main.cart') }}" class="btn btn-outline-primary mt-3">View Full Cart</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.querySelectorAll('.add-to-cart').forEach(button => {
+    button.addEventListener('click', function() {
+        const select = this.parentElement.querySelector('.qty-select');
+        const category = select.dataset.category;
+        const quantity = parseInt(select.value);
+        const matchId = document.getElementById('match-id').value;
+
+        fetch('/add-to-cart', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                match_id: parseInt(matchId),
+                category: category,
+                quantity: quantity,
+                price: 299
+            })
+        })
+        .then(r => r.json())
+        .then(data => {
+            if (data.success) {
+                alert(quantity + " × " + category + " ticket(s) added to cart!");
+            } else {
+                alert("Failed: " + (data.message || ""));
+            }
+        })
+        .catch(() => alert("Server error"));
+    });
+});
+</script>
+{% endblock %}

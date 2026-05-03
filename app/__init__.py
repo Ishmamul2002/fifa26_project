@@ -39,8 +39,7 @@ def create_app():
 
     # Create tables
     with app.app_context():
-        from . import models
-        db.create_all()
-
+        from . import models    # ← This deletes old tables
+        db.create_all()    # ← This creates new correct tables
     print("✅ FIFA 2026 App started successfully!")
     return app

@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block title %}Upcoming Matches - FIFA 2026{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center mb-5">
+        <div class="col-lg-8">
+            <h1 class="text-center display-5 fw-bold mb-4">Upcoming Matches</h1>
+            
+            <!-- Search Bar -->
+            <form method="GET" class="d-flex">
+                <input type="text" 
+                       name="search" 
+                       class="form-control form-control-lg me-2" 
+                       placeholder="Search by team name (e.g. Argentina, Brazil...)"
+                       value="{{ search_query }}">
+                <button type="submit" class="btn btn-primary btn-lg px-4">
+                    <i class="bi bi-search"></i> Search
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <div class="row">
+        {% if matches %}
+            {% for match in matches %}
+            <div class="col-lg-6 col-xl-4 mb-4">
+                <div class="card h-100 shadow-lg border-0 match-card">
+                    <div class="card-body p-4">
+                        <div class="text-center mb-3">
+                            <span class="badge bg-warning text-dark">{{ match.date.strftime('%d %b %Y') }}</span>
+                            <span class="badge bg-info ms-2">
+                                {{ match.time.strftime('%H:%M') if match.time else 'Time: N/A' }}
+                            </span>
+                        </div>
+                        
+                        <div class="d-flex justify-content-between align-items-center my-4">
+                            <div class="text-center flex-fill">
+                                <h4 class="fw-bold">
+                                    {{ match.team_a.name if match.team_a else 'TBD' }}
+                                </h4>
+                            </div>
+                            <div class="text-center px-4">
+                                <h2 class="text-danger">VS</h2>
+                            </div>
+                            <div class="text-center flex-fill">
+                                <h4 class="fw-bold">
+                                    {{ match.team_b.name if match.team_b else 'TBD' }}
+                                </h4>
+                            </div>
+                        </div>
+
+                        <div class="text-center text-muted small">
+                            <strong>Venue:</strong> {{ match.venue or 'N/A' }}<br>
+                            <strong>Group:</strong> 
+                            {{ match.team_a.group_name if match.team_a and match.team_a.group_name else 'N/A' }} 
+                            / 
+                            {{ match.team_b.group_name if match.team_b and match.team_b.group_name else 'N/A' }}
+                        </div>
+                    </div>
+                    
+                    <div class="card-footer bg-light p-3 text-center">
+                        <!-- Updated Book Ticket Button -->
+                        <a href="{{ url_for('main.book_ticket', match_id=match.match_id) }}" 
+                           class="btn btn-success btn-lg px-5">
+                            Book Ticket
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <div class="col-12 text-center py-5">
+                <h4>No upcoming matches found.</h4>
+                <p class="text-muted">Please try a different search term.</p>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+<style>
+.match-card {
+    transition: all 0.3s ease;
+    border-radius: 15px;
+}
+.match-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15) !important;
+}
+</style>
+{% endblock %}

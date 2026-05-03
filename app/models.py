@@ -28,13 +28,14 @@ class User(UserMixin, db.Model):
 
     def is_admin_user(self):
         return self.is_admin
+    
 # ========================= OTHER MODELS =========================
 class Team(db.Model):
-    __tablename__ = 'teams'
+    __tablename__ = 'teams'   
     team_id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
     country = db.Column(db.String(60), nullable=False)
-    logo = db.Column(db.String(255))
+    # logo = db.Column(db.String(255))   # Comment this out if column doesn't exist
     group_name = db.Column(db.String(1))
 
 class Stadium(db.Model):
@@ -47,42 +48,50 @@ class Stadium(db.Model):
 
 class Match(db.Model):
     __tablename__ = 'matches'
+    
     match_id = db.Column(db.Integer, primary_key=True)
-    date = db.Column(db.Date, nullable=False)
-    time = db.Column(db.Time, nullable=False)
-    team_a_id = db.Column(db.Integer, db.ForeignKey('teams.team_id'))
-    team_b_id = db.Column(db.Integer, db.ForeignKey('teams.team_id'))
+    date = db.Column('match_date', db.Date, nullable=False)
+    time = db.Column('match_time', db.Time, nullable=False)
+    team_a_id = db.Column('team1_id', db.Integer, db.ForeignKey('teams.team_id'))
+    team_b_id = db.Column('team2_id', db.Integer, db.ForeignKey('teams.team_id'))    
     stadium_id = db.Column(db.Integer, db.ForeignKey('stadiums.stadium_id'))
-    tournament_id = db.Column(db.Integer)
-    winner_id = db.Column(db.Integer, db.ForeignKey('teams.team_id'))
+    venue = db.Column(db.String(255))
+    status = db.Column(db.String(50), default='scheduled')
+    # Relationships (optional but useful)
+    team_a = db.relationship('Team', foreign_keys=[team_a_id])
+    team_b = db.relationship('Team', foreign_keys=[team_b_id])
+    stadium = db.relationship('Stadium')
+
 
 class Ticket(db.Model):
     __tablename__ = 'tickets'
-    ticket_id = db.Column(db.Integer, primary_key=True)
-    match_id = db.Column(db.Integer, db.ForeignKey('matches.match_id'))
-    seat_number = db.Column(db.String(20))
-    ticket_type = db.Column(db.String(20))
-    price = db.Column(db.Float, nullable=False)
-    status = db.Column(db.String(20), default='available')
+    __table_args__ = {'extend_existing': True}
 
-class Hotel(db.Model):
-    __tablename__ = 'hotels'
-    hotel_id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(150), nullable=False)
-    price_per_night = db.Column(db.Float, nullable=False)
-    distance_from_stadium = db.Column(db.Float)
-    availability = db.Column(db.Integer, default=100)
-    rating = db.Column(db.Float, default=4.5)
-    image = db.Column(db.String(255))
+    ticket_id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=False)
+    match_id = db.Column(db.Integer, db.ForeignKey('matches.match_id'), nullable=False)
+    
+    ticket_type = db.Column(db.String(50), nullable=True)
+    price = db.Column(db.Float, nullable=True)
+    quantity = db.Column(db.Integer, nullable=False, default=1)     # ← Must have this
+    seat_number = db.Column(db.String(20), nullable=True)
+    status = db.Column(db.String(20), default='active')
+    qr_code = db.Column(db.String(255), nullable=True)
+
+    # Relationships
+    match = db.relationship('Match', backref='tickets')
 
 class Cart(db.Model):
     __tablename__ = 'cart'
+    
     cart_id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=False)
-    item_type = db.Column(db.String(20), nullable=False)   # 'ticket' or 'hotel'
+    item_type = db.Column(db.String(50), nullable=True)
     item_id = db.Column(db.Integer, nullable=False)
-    quantity = db.Column(db.Integer, default=1)
+    quantity = db.Column(db.Integer, nullable=False)
     added_at = db.Column(db.DateTime, default=datetime.utcnow)
+    price_per_ticket = db.Column(db.Float, nullable=True)
+    total_price = db.Column(db.Float, nullable=True)
 
 class Booking(db.Model):
     __tablename__ = 'bookings'
@@ -95,12 +104,19 @@ class Booking(db.Model):
 
 class Payment(db.Model):
     __tablename__ = 'payments'
+    
     payment_id = db.Column(db.Integer, primary_key=True)
-    booking_id = db.Column(db.Integer, db.ForeignKey('bookings.booking_id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=False)
+    ticket_id = db.Column(db.Integer, db.ForeignKey('tickets.ticket_id'), nullable=True)
     amount = db.Column(db.Float, nullable=False)
-    payment_method = db.Column(db.String(50))  # card, bkash, nagad, cash, paypal
-    status = db.Column(db.String(20), default='pending')
-    transaction_id = db.Column(db.String(100))
+    payment_method = db.Column(db.String(50), nullable=False)
+    status = db.Column(db.String(20), default='completed')
+    transaction_id = db.Column(db.String(100), nullable=True)
+    payment_date = db.Column(db.DateTime, default=datetime.utcnow)
+    
+    # Relationships
+    user = db.relationship('User', backref='payments')
+    ticket = db.relationship('Ticket', backref='payment')
 
 
 class LiveMatchAnalytics(db.Model):

@@ -31,6 +31,14 @@
                         </div>
                         <button type="submit" class="btn btn-primary w-100 py-3">SIGN IN</button>
                     </form>
+
+                    <!-- NEW: Sign Up Link -->
+                    <p class="text-center mt-3">
+                        Don't have an account? 
+                        <a href="{{ url_for('auth.signup') }}" class="text-decoration-none">
+                            <strong>Sign Up</strong>
+                        </a>
+                    </p>
                 </div>
             </div>
         </div>
