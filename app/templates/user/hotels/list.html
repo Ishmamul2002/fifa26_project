@@ -3,21 +3,102 @@
 {% block title %}Hotels - FIFA 2026{% endblock %}
 
 {% block content %}
+<style>
+    /* 1. ADAPTIVE COLOR VARIABLES */
+    :root {
+        --text-main: #111827;
+        --text-muted: #6b7280;
+        --card-bg: #ffffff;
+        --border-color: #e5e7eb;
+        --badge-bg: rgba(245, 158, 11, 0.1);
+    }
+
+    .dark-mode {
+        --text-main: #f9fafb;
+        --text-muted: #9ca3af;
+        --card-bg: #1e293b;
+        --border-color: #334155;
+        --badge-bg: rgba(245, 158, 11, 0.2);
+    }
+
+    .adaptive-card {
+        background-color: var(--card-bg) !important;
+        border: 1px solid var(--border-color);
+        color: var(--text-main);
+        border-radius: 1.5rem;
+        transition: all 0.3s ease;
+    }
+
+    .adaptive-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12);
+    }
+
+    .adaptive-text {
+        color: var(--text-main) !important;
+    }
+
+    .adaptive-muted {
+        color: var(--text-muted) !important;
+    }
+
+    .price-tag {
+        font-weight: 800;
+        color: #198754; /* Success Green */
+    }
+
+    .distance-badge {
+        background: var(--badge-bg);
+        color: #f59e0b;
+        font-size: 0.8rem;
+        font-weight: 700;
+        padding: 4px 12px;
+        border-radius: 50px;
+    }
+</style>
+
 <div class="container py-5">
-    <h1 class="display-5 fw-bold text-warning mb-4">Hotel Booking</h1>
-    <p class="lead text-muted">Stay near the stadiums during the World Cup</p>
+    <header class="mb-5">
+        <h1 class="display-5 fw-bold adaptive-text mb-2">Hotel <span class="text-warning">Booking</span></h1>
+        <p class="lead adaptive-muted">Find the perfect stay near the stadiums during the World Cup.</p>
+    </header>
 
     <div class="row g-4">
-        <div class="col-lg-4">
-            <div class="card shadow border-0">
-                <div class="card-body">
-                    <h5>Grand Hyatt Mexico City</h5>
-                    <p class="text-muted">1.8 km from Stadium • Rating 4.7</p>
-                    <h4 class="text-success">$420 / night</h4>
-                    <a href="#" class="btn btn-warning w-100 mt-3">Book Now</a>
+        <!-- Hotel Item 1 -->
+        <div class="col-lg-4 col-md-6">
+            <div class="card shadow-sm adaptive-card border-0 h-100">
+                <div class="card-body p-4 d-flex flex-column">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <span class="distance-badge">
+                            <i class="fas fa-map-marker-alt me-1"></i> 1.8 km from Stadium
+                        </span>
+                        <div class="text-warning small">
+                            <i class="fas fa-star"></i> 4.7
+                        </div>
+                    </div>
+
+                    <h5 class="fw-bold adaptive-text mb-2">Grand Hyatt Mexico City</h5>
+                    <p class="adaptive-muted small mb-4">Located in the heart of the city with luxury spa access and World Cup shuttle services.</p>
+                    
+                    <div class="mt-auto">
+                        <div class="d-flex align-items-baseline mb-3">
+                            <h3 class="price-tag mb-0">$420</h3>
+                            <span class="adaptive-muted ms-1 small">/ night</span>
+                        </div>
+                        <a href="/book-hotel/1" class="btn btn-warning w-100 py-2 fw-bold rounded-pill shadow-sm">
+                            <i class="fas fa-calendar-check me-2"></i>Book Now
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
+
+        <!-- Additional hotels can be added here with the same structure -->
+    </div>
+
+    <!-- Quick Link Footer -->
+    <div class="mt-5 text-center">
+        <p class="adaptive-muted small">Need help with your booking? <a href="/support" class="text-warning text-decoration-none fw-bold">Contact Support</a></p>
     </div>
 </div>
 {% endblock %}

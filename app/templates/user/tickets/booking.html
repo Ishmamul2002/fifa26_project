@@ -3,53 +3,146 @@
 {% block title %}Book Tickets - FIFA 2026{% endblock %}
 
 {% block content %}
+<style>
+    /* 1. ADAPTIVE COLOR VARIABLES */
+    :root {
+        --text-main: #111827;
+        --text-muted: #6b7280;
+        --card-bg: #ffffff;
+        --border-color: #e5e7eb;
+        --input-bg: #f9fafb;
+    }
+
+    .dark-mode {
+        --text-main: #f9fafb;
+        --text-muted: #9ca3af;
+        --card-bg: #1e293b;
+        --border-color: #334155;
+        --input-bg: #0f172a;
+    }
+
+    .adaptive-card {
+        background-color: var(--card-bg) !important;
+        border: 1px solid var(--border-color);
+        color: var(--text-main);
+        border-radius: 1.5rem;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .adaptive-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+
+    .adaptive-text {
+        color: var(--text-main) !important;
+    }
+
+    .adaptive-muted {
+        color: var(--text-muted) !important;
+    }
+
+    .qty-input {
+        background-color: var(--input-bg) !important;
+        color: var(--text-main) !important;
+        border: 1px solid var(--border-color) !important;
+        border-radius: 10px;
+    }
+
+    /* Status-specific borders that stay visible in both modes */
+    .border-standard { border-top: 5px solid #198754 !important; }
+    .border-vip { border-top: 5px solid #ffc107 !important; }
+    .border-premium { border-top: 5px solid #dc3545 !important; }
+</style>
+
 <div class="container py-5">
-    <h1 class="display-5 fw-bold text-success mb-4">Book Tickets</h1>
-    <p class="lead text-muted mb-5">Mexico vs South Korea • June 11, 2026 • 21:00 • Estadio Azteca</p>
+    <div class="mb-5">
+        <h1 class="display-5 fw-bold adaptive-text">Book <span class="text-success">Tickets</span></h1>
+        <div class="d-flex align-items-center mt-2">
+            <span class="badge bg-success me-2">Group Stage</span>
+            <p class="lead adaptive-muted mb-0">Mexico vs South Korea • June 11, 2026 • 21:00 • Estadio Azteca</p>
+        </div>
+    </div>
 
     <div class="row justify-content-center">
-        <div class="col-lg-10">
-            <div class="card shadow">
-                <div class="card-body p-5">
-                    <h4 class="mb-4">Select Ticket Type & Quantity</h4>
+        <div class="col-lg-12">
+            <div class="card shadow-sm adaptive-card border-0 p-3 p-md-4">
+                <div class="card-body">
+                    <h4 class="mb-5 fw-bold adaptive-text text-center">Select Your Experience</h4>
 
                     <div class="row g-4">
+                        <!-- Standard Tier -->
                         <div class="col-md-4">
-                            <div class="card border-success h-100">
-                                <div class="card-body text-center">
-                                    <h5>Standard</h5>
-                                    <h3 class="text-success">$150</h3>
-                                    <input type="number" id="qty-standard" value="1" min="1" class="form-control text-center my-3">
-                                    <button onclick="addToCart('Standard Ticket', 150, 'qty-standard')" class="btn btn-success w-100">Add to Cart</button>
+                            <div class="card h-100 adaptive-card border-standard shadow-sm">
+                                <div class="card-body text-center p-4">
+                                    <div class="mb-3">
+                                        <i class="fas fa-ticket-alt text-success fs-1"></i>
+                                    </div>
+                                    <h5 class="fw-bold adaptive-text">Standard</h5>
+                                    <p class="small adaptive-muted">End zone seating with a great view of the atmosphere.</p>
+                                    <h2 class="text-success fw-bold mb-3">$150</h2>
+                                    
+                                    <div class="mb-3">
+                                        <label class="small fw-bold adaptive-muted d-block mb-1">Quantity</label>
+                                        <input type="number" id="qty-standard" value="1" min="1" class="form-control text-center qty-input mx-auto w-50">
+                                    </div>
+                                    <button onclick="addToCart('Standard Ticket', 150, 'qty-standard')" class="btn btn-success w-100 rounded-pill py-2">
+                                        <i class="fas fa-cart-plus me-2"></i>Add to Cart
+                                    </button>
                                 </div>
                             </div>
                         </div>
 
+                        <!-- VIP Tier -->
                         <div class="col-md-4">
-                            <div class="card border-warning h-100">
-                                <div class="card-body text-center">
-                                    <h5>VIP</h5>
-                                    <h3 class="text-warning">$480</h3>
-                                    <input type="number" id="qty-vip" value="1" min="1" class="form-control text-center my-3">
-                                    <button onclick="addToCart('VIP Ticket', 480, 'qty-vip')" class="btn btn-warning w-100">Add to Cart</button>
+                            <div class="card h-100 adaptive-card border-vip shadow-sm">
+                                <div class="card-body text-center p-4">
+                                    <div class="mb-3">
+                                        <i class="fas fa-star text-warning fs-1"></i>
+                                    </div>
+                                    <h5 class="fw-bold adaptive-text">VIP</h5>
+                                    <p class="small adaptive-muted">Mid-field seating with access to lounge amenities.</p>
+                                    <h2 class="text-warning fw-bold mb-3">$480</h2>
+                                    
+                                    <div class="mb-3">
+                                        <label class="small fw-bold adaptive-muted d-block mb-1">Quantity</label>
+                                        <input type="number" id="qty-vip" value="1" min="1" class="form-control text-center qty-input mx-auto w-50">
+                                    </div>
+                                    <button onclick="addToCart('VIP Ticket', 480, 'qty-vip')" class="btn btn-warning w-100 rounded-pill py-2 fw-bold">
+                                        <i class="fas fa-cart-plus me-2"></i>Add to Cart
+                                    </button>
                                 </div>
                             </div>
                         </div>
 
+                        <!-- Premium Tier -->
                         <div class="col-md-4">
-                            <div class="card border-danger h-100">
-                                <div class="card-body text-center">
-                                    <h5>Premium</h5>
-                                    <h3 class="text-danger">$920</h3>
-                                    <input type="number" id="qty-premium" value="1" min="1" class="form-control text-center my-3">
-                                    <button onclick="addToCart('Premium Ticket', 920, 'qty-premium')" class="btn btn-danger w-100">Add to Cart</button>
+                            <div class="card h-100 adaptive-card border-premium shadow-sm">
+                                <div class="card-body text-center p-4">
+                                    <div class="mb-3">
+                                        <i class="fas fa-crown text-danger fs-1"></i>
+                                    </div>
+                                    <h5 class="fw-bold adaptive-text">Premium</h5>
+                                    <p class="small adaptive-muted">Private box experience with catering and hospitality.</p>
+                                    <h2 class="text-danger fw-bold mb-3">$920</h2>
+                                    
+                                    <div class="mb-3">
+                                        <label class="small fw-bold adaptive-muted d-block mb-1">Quantity</label>
+                                        <input type="number" id="qty-premium" value="1" min="1" class="form-control text-center qty-input mx-auto w-50">
+                                    </div>
+                                    <button onclick="addToCart('Premium Ticket', 920, 'qty-premium')" class="btn btn-danger w-100 rounded-pill py-2">
+                                        <i class="fas fa-cart-plus me-2"></i>Add to Cart
+                                    </button>
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <div class="mt-5 text-center">
-                        <a href="/user/cart" class="btn btn-info btn-lg px-5">View My Cart</a>
+                        <hr class="mb-4 opacity-25">
+                        <a href="/user/cart" class="btn btn-primary btn-lg px-5 rounded-pill shadow">
+                            <i class="fas fa-shopping-cart me-2"></i> Proceed to Cart
+                        </a>
                     </div>
                 </div>
             </div>
@@ -70,7 +163,10 @@ function addToCart(ticketType, pricePerTicket, qtyId) {
     });
 
     localStorage.setItem('cart', JSON.stringify(cart));
-    alert(`✅ Added to Cart!\n${quantity} x ${ticketType}\nTotal: $${totalPrice}`);
+    
+    // Modern UI feedback instead of just an alert
+    const toastMessage = `✅ Added ${quantity} x ${ticketType} to your cart!`;
+    alert(toastMessage);
 }
 </script>
 {% endblock %}

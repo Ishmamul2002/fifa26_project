@@ -3,58 +3,185 @@
 {% block title %}Past Matches - FIFA 2026{% endblock %}
 
 {% block content %}
+<style>
+    /* 1. ADAPTIVE COLOR VARIABLES */
+    :root {
+        --text-main: #111827;
+        --text-muted: #6b7280;
+        --card-bg: #ffffff;
+        --border-color: #e5e7eb;
+        --history-accent: #64748b; /* Slate secondary */
+    }
+
+    .dark-mode {
+        --text-main: #f9fafb;
+        --text-muted: #9ca3af;
+        --card-bg: #1e293b;
+        --border-color: #334155;
+        --history-accent: #94a3b8;
+    }
+
+    .adaptive-card {
+        background-color: var(--card-bg) !important;
+        border: 1px solid var(--border-color);
+        color: var(--text-main);
+        border-radius: 1.25rem;
+        transition: transform 0.2s ease;
+    }
+
+    .adaptive-card:hover {
+        transform: scale(1.02);
+    }
+
+    .adaptive-text {
+        color: var(--text-main) !important;
+    }
+
+    .adaptive-muted {
+        color: var(--text-muted) !important;
+    }
+
+    .score-badge {
+        background: var(--history-accent);
+        color: white;
+        padding: 5px 15px;
+        border-radius: 8px;
+        font-family: 'Courier New', monospace;
+        font-weight: bold;
+        letter-spacing: 2px;
+    }
+
+    .winner-text {
+        color: #10b981 !important; /* Vibrant Emerald Green */
+        font-weight: 600;
+        font-size: 0.9rem;
+    }
+</style>
+
 <div class="container py-5">
-    <h1 class="display-5 fw-bold text-secondary mb-4">Past Matches History</h1>
-    <p class="lead text-muted">Famous FIFA World Cup Finals</p>
+    <header class="mb-5">
+        <h1 class="display-5 fw-bold adaptive-text mb-2">History <span class="text-secondary">Vault</span></h1>
+        <p class="lead adaptive-muted">Relive the greatest moments in FIFA World Cup history.</p>
+    </header>
 
     <div class="row g-4">
+        <!-- 2022 Final -->
         <div class="col-lg-6">
-            <div class="card shadow">
-                <div class="card-body">
-                    <p class="text-muted small">2022 World Cup Final</p>
-                    <h5>Argentina 3 - 3 France</h5>
-                    <p class="text-success">Argentina won on penalties</p>
-                    <small class="text-muted">Lusail Stadium, Qatar</small>
+            <div class="card shadow-sm adaptive-card border-0">
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <div>
+                            <span class="badge bg-secondary mb-2">FINAL 2022</span>
+                            <h5 class="fw-bold adaptive-text mb-0">Argentina vs France</h5>
+                        </div>
+                        <i class="fas fa-trophy text-warning fs-4"></i>
+                    </div>
+                    
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="score-badge me-3">3 - 3</div>
+                        <div class="winner-text">
+                            <i class="fas fa-check-circle me-1"></i> Argentina (4-2 Pens)
+                        </div>
+                    </div>
+                    
+                    <div class="pt-3 border-top border-secondary opacity-25">
+                        <small class="adaptive-muted">
+                            <i class="fas fa-map-marker-alt me-1"></i> Lusail Stadium, Qatar
+                        </small>
+                    </div>
                 </div>
             </div>
         </div>
 
+        <!-- 2018 Final -->
         <div class="col-lg-6">
-            <div class="card shadow">
-                <div class="card-body">
-                    <p class="text-muted small">2018 World Cup Final</p>
-                    <h5>France 4 - 2 Croatia</h5>
-                    <p class="text-success">France Champion</p>
-                    <small class="text-muted">Luzhniki Stadium, Russia</small>
+            <div class="card shadow-sm adaptive-card border-0">
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <div>
+                            <span class="badge bg-secondary mb-2">FINAL 2018</span>
+                            <h5 class="fw-bold adaptive-text mb-0">France vs Croatia</h5>
+                        </div>
+                        <i class="fas fa-trophy text-warning fs-4"></i>
+                    </div>
+                    
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="score-badge me-3">4 - 2</div>
+                        <div class="winner-text">
+                            <i class="fas fa-star me-1"></i> France Champion
+                        </div>
+                    </div>
+                    
+                    <div class="pt-3 border-top border-secondary opacity-25">
+                        <small class="adaptive-muted">
+                            <i class="fas fa-map-marker-alt me-1"></i> Luzhniki Stadium, Russia
+                        </small>
+                    </div>
                 </div>
             </div>
         </div>
 
+        <!-- 2014 Final -->
         <div class="col-lg-6">
-            <div class="card shadow">
-                <div class="card-body">
-                    <p class="text-muted small">2014 World Cup Final</p>
-                    <h5>Germany 1 - 0 Argentina</h5>
-                    <p class="text-success">Germany Champion</p>
-                    <small class="text-muted">Maracanã Stadium, Brazil</small>
+            <div class="card shadow-sm adaptive-card border-0">
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <div>
+                            <span class="badge bg-secondary mb-2">FINAL 2014</span>
+                            <h5 class="fw-bold adaptive-text mb-0">Germany vs Argentina</h5>
+                        </div>
+                        <i class="fas fa-trophy text-warning fs-4"></i>
+                    </div>
+                    
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="score-badge me-3">1 - 0</div>
+                        <div class="winner-text">
+                            <i class="fas fa-star me-1"></i> Germany Champion
+                        </div>
+                    </div>
+                    
+                    <div class="pt-3 border-top border-secondary opacity-25">
+                        <small class="adaptive-muted">
+                            <i class="fas fa-map-marker-alt me-1"></i> Maracanã Stadium, Brazil
+                        </small>
+                    </div>
                 </div>
             </div>
         </div>
 
+        <!-- 2010 Final -->
         <div class="col-lg-6">
-            <div class="card shadow">
-                <div class="card-body">
-                    <p class="text-muted small">2010 World Cup Final</p>
-                    <h5>Spain 1 - 0 Netherlands</h5>
-                    <p class="text-success">Spain Champion</p>
-                    <small class="text-muted">Soccer City, South Africa</small>
+            <div class="card shadow-sm adaptive-card border-0">
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <div>
+                            <span class="badge bg-secondary mb-2">FINAL 2010</span>
+                            <h5 class="fw-bold adaptive-text mb-0">Spain vs Netherlands</h5>
+                        </div>
+                        <i class="fas fa-trophy text-warning fs-4"></i>
+                    </div>
+                    
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="score-badge me-3">1 - 0</div>
+                        <div class="winner-text">
+                            <i class="fas fa-star me-1"></i> Spain Champion
+                        </div>
+                    </div>
+                    
+                    <div class="pt-3 border-top border-secondary opacity-25">
+                        <small class="adaptive-muted">
+                            <i class="fas fa-map-marker-alt me-1"></i> Soccer City, South Africa
+                        </small>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
     <div class="mt-5 text-center">
-        <a href="/user/dashboard" class="btn btn-primary">Back to Dashboard</a>
+        <a href="/user/dashboard" class="btn btn-outline-primary px-5 rounded-pill shadow-sm">
+            <i class="fas fa-arrow-left me-2"></i>Back to Dashboard
+        </a>
     </div>
 </div>
 {% endblock %}

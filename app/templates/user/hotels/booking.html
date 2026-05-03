@@ -3,32 +3,109 @@
 {% block title %}Hotel Booking - FIFA 2026{% endblock %}
 
 {% block content %}
+<style>
+    /* 1. ADAPTIVE COLOR VARIABLES */
+    :root {
+        --text-main: #111827;
+        --text-muted: #6b7280;
+        --card-bg: #ffffff;
+        --border-color: #e5e7eb;
+        --breadcrumb-bg: #f3f4f6;
+    }
+
+    .dark-mode {
+        --text-main: #f9fafb;
+        --text-muted: #9ca3af;
+        --card-bg: #1e293b;
+        --border-color: #334155;
+        --breadcrumb-bg: #0f172a;
+    }
+
+    .adaptive-card {
+        background-color: var(--card-bg) !important;
+        border: 1px solid var(--border-color);
+        color: var(--text-main);
+        border-radius: 1.25rem;
+        transition: all 0.3s ease;
+    }
+
+    .adaptive-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+    }
+
+    .adaptive-text {
+        color: var(--text-main) !important;
+    }
+
+    .adaptive-muted {
+        color: var(--text-muted) !important;
+    }
+
+    .custom-breadcrumb {
+        background: var(--breadcrumb-bg);
+        padding: 10px 20px;
+        border-radius: 50px;
+        display: inline-block;
+    }
+
+    .hotel-price {
+        font-size: 1.5rem;
+        font-weight: 800;
+        color: #f59e0b; /* Golden Warning Color */
+    }
+</style>
+
 <div class="container py-5">
     <!-- Breadcrumb -->
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="/user/dashboard">Dashboard</a></li>
-            <li class="breadcrumb-item active">Hotel Booking</li>
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb custom-breadcrumb">
+            <li class="breadcrumb-item"><a href="/user/dashboard" class="text-decoration-none">Dashboard</a></li>
+            <li class="breadcrumb-item active adaptive-muted" aria-current="page">Hotel Booking</li>
         </ol>
     </nav>
 
-    <h1 class="display-5 fw-bold text-warning mb-4">Hotel Booking</h1>
-    <p class="lead text-muted mb-5">Stay near the stadiums during FIFA World Cup 2026</p>
+    <header class="mb-5">
+        <h1 class="display-5 fw-bold adaptive-text">Hotel <span class="text-warning">Booking</span></h1>
+        <p class="lead adaptive-muted">Premium stays near the stadiums during FIFA World Cup 2026.</p>
+    </header>
 
     <div class="row g-4">
-        <div class="col-lg-4">
-            <div class="card shadow">
-                <div class="card-body">
-                    <h5>Grand Hyatt Mexico City</h5>
-                    <p class="text-muted">$420 / night</p>
-                    <button onclick="addHotelToCart()" class="btn btn-warning w-100">Add to Cart</button>
+        <!-- Hotel Card 1 -->
+        <div class="col-lg-4 col-md-6">
+            <div class="card shadow-sm adaptive-card h-100 border-0">
+                <div class="card-body p-4 d-flex flex-column">
+                    <div class="mb-3 d-flex justify-content-between align-items-start">
+                        <span class="badge bg-warning text-dark px-3 rounded-pill">5-Star</span>
+                        <i class="fas fa-hotel text-warning fs-3"></i>
+                    </div>
+                    
+                    <h5 class="fw-bold adaptive-text mb-1">Grand Hyatt Mexico City</h5>
+                    <p class="small adaptive-muted mb-3">
+                        <i class="fas fa-map-marker-alt me-1"></i> Near Estadio Azteca
+                    </p>
+                    
+                    <div class="mt-auto">
+                        <div class="hotel-price mb-3">
+                            $420 <span class="fs-6 adaptive-muted fw-normal">/ night</span>
+                        </div>
+                        <button onclick="addHotelToCart()" class="btn btn-warning w-100 py-2 fw-bold rounded-pill shadow-sm">
+                            <i class="fas fa-cart-plus me-2"></i>Add to Cart
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
+
+        <!-- Add more col-lg-4 blocks here for more hotels -->
     </div>
 
+    <!-- Navigation Footer -->
     <div class="mt-5 text-center">
-        <a href="/user/cart" class="btn btn-info">View My Cart</a>
+        <hr class="mb-4 opacity-25">
+        <a href="/user/cart" class="btn btn-outline-primary btn-lg px-5 rounded-pill">
+            <i class="fas fa-shopping-cart me-2"></i>View My Cart
+        </a>
     </div>
 </div>
 
@@ -38,10 +115,13 @@ function addHotelToCart() {
     cart.push({
         type: "Grand Hyatt Mexico City",
         price: 420,
-        details: "2 nights (June 10-12, 2026)"
+        details: "2 nights (June 10-12, 2026)",
+        category: "Hotel"
     });
     localStorage.setItem('cart', JSON.stringify(cart));
-    alert("✅ Hotel Added to Cart!");
+    
+    // Simple visual feedback
+    alert("✅ Grand Hyatt Mexico City added to your cart!");
 }
 </script>
 {% endblock %}

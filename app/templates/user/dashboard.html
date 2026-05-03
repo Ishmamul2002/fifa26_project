@@ -3,107 +3,206 @@
 {% block title %}Dashboard - FIFA World Cup 2026{% endblock %}
 
 {% block content %}
+<style>
+    /* Custom enhancements to complement Bootstrap */
+    .dashboard-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border: none;
+        border-radius: 15px;
+    }
+    .dashboard-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.15) !important;
+    }
+    .icon-box {
+        height: 100px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .btn-purple {
+        background-color: #6f42c1;
+        color: white;
+    }
+    .btn-purple:hover {
+        background-color: #59359a;
+        color: white;
+    }
+</style>
+
 <div class="container py-5">
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item active">FIFA hub</li>
+    <!-- Breadcrumb -->
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb bg-transparent p-0">
+            <li class="breadcrumb-item"><a href="#" class="text-decoration-none">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">FIFA Hub</li>
         </ol>
     </nav>
 
-    <h1 class="display-5 fw-bold text-primary text-center mb-5">Welcome</h1>
-    <div class="row g-4 mt-5">
+    <!-- Header Section -->
+    <div class="text-center mb-5">
+        <h1 class="display-4 fw-bold text-dark">FIFA World Cup <span class="text-primary">2026</span></h1>
+        <p class="lead text-muted">Your central gateway for matches, tickets and fan experiences.</p>
+    </div>
+
+    <div class="row g-4">
         <!-- Row 1 -->
         <div class="col-lg-4 col-md-6">
-            <div class="card h-100 shadow text-center p-4">
-                <i class="fas fa-calendar-alt fa-4x text-primary mb-3"></i>
-                <h5>Upcoming Matches</h5>
-                <a href="{{ url_for('main.upcoming_matches') }}" 
-                    class="btn btn-primary w-100 mt-3">
-                    Browse Matches
-                 </a>
+            <div class="card h-100 shadow-sm text-center p-4 dashboard-card">
+                <div class="icon-box">
+                    <i class="fas fa-calendar-alt fa-3x text-primary"></i>
+                </div>
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title fw-bold">Upcoming Matches</h5>
+                    <p class="card-text text-muted small">Stay updated with the latest fixtures and schedules.</p>
+                    <a href="{{ url_for('main.upcoming_matches') }}" class="btn btn-primary w-100 mt-auto">Browse Matches</a>
+                </div>
             </div>
         </div>
+
         <div class="col-lg-4 col-md-6">
-            <div class="card h-100 shadow text-center p-4">
-                <i class="fas fa-ticket-alt fa-4x text-success mb-3"></i>
-                <h5>Book Tickets</h5>
-                <a href="{{ url_for('main.buy_tickets') }}" class="btn btn-success">Buy Tickets</a>
+            <div class="card h-100 shadow-sm text-center p-4 dashboard-card">
+                <div class="icon-box">
+                    <i class="fas fa-ticket-alt fa-3x text-success"></i>
+                </div>
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title fw-bold">Book Tickets</h5>
+                    <p class="card-text text-muted small">Secure your seat for the biggest matches of the year.</p>
+                    <a href="{{ url_for('main.buy_tickets') }}" class="btn btn-success w-100 mt-auto">Buy Tickets</a>
+                </div>
             </div>
         </div>
+
         <div class="col-lg-4 col-md-6">
-            <div class="card h-100 shadow text-center p-4">
-                <i class="fas fa-hotel fa-4x text-warning mb-3"></i>
-                <h5>Hotel Booking</h5>
-                <a href="/user/hotels" class="btn btn-warning w-100 mt-3">Book Hotels</a>
+            <div class="card h-100 shadow-sm text-center p-4 dashboard-card">
+                <div class="icon-box">
+                    <i class="fas fa-hotel fa-3x text-warning"></i>
+                </div>
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title fw-bold">Hotel Booking</h5>
+                    <p class="card-text text-muted small">Find the best accommodations near the stadiums.</p>
+                    <a href="/user/hotels" class="btn btn-warning w-100 mt-auto">Book Hotels</a>
+                </div>
             </div>
         </div>
 
         <!-- Row 2 -->
         <div class="col-lg-4 col-md-6">
-            <div class="card h-100 shadow text-center p-4">
-                <i class="fas fa-users fa-3x text-info mb-3"></i>
-                <h5>Team Hub</h5>
-                <a href="/user/teams" class="btn btn-info w-100 mt-3">Explore Teams</a>
+            <div class="card h-100 shadow-sm text-center p-4 dashboard-card">
+                <div class="icon-box">
+                    <i class="fas fa-users fa-3x text-info"></i>
+                </div>
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title fw-bold">Team Hub</h5>
+                    <p class="card-text text-muted small">In-depth profiles of all participating nations.</p>
+                    <a href="/user/teams" class="btn btn-info text-white w-100 mt-auto">Explore Teams</a>
+                </div>
             </div>
         </div>
+
         <div class="col-lg-4 col-md-6">
-            <div class="card h-100 shadow text-center p-4">
-                <i class="fas fa-user-circle fa-3x text-primary mb-3"></i>
-                <h5>Player Cards</h5>
-                <a href="/user/players" class="btn btn-primary w-100 mt-3">View Players</a>
+            <div class="card h-100 shadow-sm text-center p-4 dashboard-card">
+                <div class="icon-box">
+                    <i class="fas fa-user-circle fa-3x text-primary"></i>
+                </div>
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title fw-bold">Player Cards</h5>
+                    <p class="card-text text-muted small">Stats and bios for your favorite world stars.</p>
+                    <a href="/user/players" class="btn btn-primary w-100 mt-auto">View Players</a>
+                </div>
             </div>
         </div>
+
         <div class="col-lg-4 col-md-6">
-            <div class="card h-100 shadow text-center p-4">
-                <i class="fas fa-chart-line fa-3x text-success mb-3"></i>
-                <h5>Live Analytics</h5>
-                <a href="/user/analytics" class="btn btn-success w-100 mt-3">Live Stats</a>
+            <div class="card h-100 shadow-sm text-center p-4 dashboard-card">
+                <div class="icon-box">
+                    <i class="fas fa-chart-line fa-3x text-success"></i>
+                </div>
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title fw-bold">Live Analytics</h5>
+                    <p class="card-text text-muted small">Real-time data and tactical breakdowns.</p>
+                    <a href="/user/analytics" class="btn btn-success w-100 mt-auto">Live Stats</a>
+                </div>
             </div>
         </div>
 
         <!-- Row 3 -->
         <div class="col-lg-4 col-md-6">
-            <div class="card h-100 shadow text-center p-4">
-                <i class="fas fa-trophy fa-3x text-warning mb-3"></i>
-                <h5>Leaderboard</h5>
-                <a href="/user/leaderboard" class="btn btn-warning w-100 mt-3">View Rankings</a>
+            <div class="card h-100 shadow-sm text-center p-4 dashboard-card">
+                <div class="icon-box">
+                    <i class="fas fa-trophy fa-3x text-warning"></i>
+                </div>
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title fw-bold">Leaderboard</h5>
+                    <p class="card-text text-muted small">Check group standings and top scorers.</p>
+                    <a href="/user/leaderboard" class="btn btn-warning w-100 mt-auto">View Rankings</a>
+                </div>
             </div>
         </div>
+
         <div class="col-lg-4 col-md-6">
-            <div class="card h-100 shadow text-center p-4">
-                <i class="fas fa-comments fa-3x text-purple mb-3"></i>
-                <h5>Fan Zone</h5>
-                <a href="/user/fanzone" class="btn btn-purple w-100 mt-3">Join Community</a>
+            <div class="card h-100 shadow-sm text-center p-4 dashboard-card">
+                <div class="icon-box">
+                    <i class="fas fa-comments fa-3x btn-purple-text" style="color: #6f42c1;"></i>
+                </div>
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title fw-bold">Fan Zone</h5>
+                    <p class="card-text text-muted small">Connect with millions of fans worldwide.</p>
+                    <a href="/user/fanzone" class="btn btn-purple w-100 mt-auto">Join Community</a>
+                </div>
             </div>
         </div>
+
         <div class="col-lg-4 col-md-6">
-            <div class="card h-100 shadow text-center p-4">
-                <i class="fas fa-video fa-3x text-danger mb-3"></i>
-                <h5>Highlights Reels</h5>
-                <a href="/user/highlights" class="btn btn-danger w-100 mt-3">Watch Highlights</a>
+            <div class="card h-100 shadow-sm text-center p-4 dashboard-card">
+                <div class="icon-box">
+                    <i class="fas fa-video fa-3x text-danger"></i>
+                </div>
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title fw-bold">Highlights</h5>
+                    <p class="card-text text-muted small">Catch up on all the goals and best moments.</p>
+                    <a href="/user/highlights" class="btn btn-danger w-100 mt-auto">Watch Now</a>
+                </div>
             </div>
         </div>
 
         <!-- Row 4 -->
         <div class="col-lg-4 col-md-6">
-            <div class="card h-100 shadow text-center p-4">
-                <i class="fas fa-qrcode fa-3x text-dark mb-3"></i>
-                <h5>My Tickets</h5>
-                <a href="{{ url_for('main.my_tickets') }}" class="btn btn-primary">QR Codes</a>
+            <div class="card h-100 shadow-sm text-center p-4 dashboard-card">
+                <div class="icon-box">
+                    <i class="fas fa-qrcode fa-3x text-dark"></i>
+                </div>
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title fw-bold">My Tickets</h5>
+                    <p class="card-text text-muted small">Quick access to your digital entry passes.</p>
+                    <a href="{{ url_for('main.my_tickets') }}" class="btn btn-outline-dark w-100 mt-auto">View QR Codes</a>
+                </div>
             </div>
         </div>
+
         <div class="col-lg-4 col-md-6">
-            <div class="card h-100 shadow text-center p-4">
-                <i class="fas fa-crystal-ball fa-3x text-info mb-3"></i>
-                <h5>Match Predictor</h5>
-                <a href="/user/predictor" class="btn btn-info w-100 mt-3">Predict Matches</a>
+            <div class="card h-100 shadow-sm text-center p-4 dashboard-card">
+                <div class="icon-box">
+                    <i class="fas fa-magic fa-3x text-info"></i>
+                </div>
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title fw-bold">Match Predictor</h5>
+                    <p class="card-text text-muted small">Test your knowledge and win prizes.</p>
+                    <a href="/user/predictor" class="btn btn-info text-white w-100 mt-auto">Predict Matches</a>
+                </div>
             </div>
         </div>
+
         <div class="col-lg-4 col-md-6">
-            <div class="card h-100 shadow text-center p-4">
-                <i class="fas fa-headset fa-3x text-secondary mb-3"></i>
-                <h5>Help Desk</h5>
-                <a href="/user/help" class="btn btn-secondary w-100 mt-3">Get Support</a>
+            <div class="card h-100 shadow-sm text-center p-4 dashboard-card">
+                <div class="icon-box">
+                    <i class="fas fa-headset fa-3x text-secondary"></i>
+                </div>
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title fw-bold">Help Desk</h5>
+                    <p class="card-text text-muted small">Need assistance? Our team is here 24/7.</p>
+                    <a href="/user/help" class="btn btn-secondary w-100 mt-auto">Get Support</a>
+                </div>
             </div>
         </div>
     </div>

@@ -3,44 +3,107 @@
 {% block title %}Login - FIFA 2026{% endblock %}
 
 {% block content %}
-<div class="container py-5">
-    <div class="row justify-content-center">
-        <div class="col-lg-5">
-            <div class="card shadow">
-                <div class="card-body p-5">
-                    <h2 class="text-center mb-4">Sign In</h2>
+<!-- Custom styles for this page -->
+<style>
+    .login-card {
+        border: none;
+        border-radius: 1rem;
+        overflow: hidden;
+    }
+    .input-group-text {
+        background-color: transparent;
+        border-right: none;
+        color: #6c757d;
+    }
+    .form-control {
+        border-left: none;
+    }
+    .form-control:focus {
+        border-color: #dee2e6;
+        box-shadow: none;
+    }
+    .btn-fifa {
+        background: linear-gradient(45deg, #00529b, #007bff);
+        border: none;
+        font-weight: 600;
+        letter-spacing: 1px;
+        transition: all 0.3s ease;
+    }
+    .btn-fifa:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3);
+        background: linear-gradient(45deg, #003d74, #00529b);
+    }
+</style>
 
+<div class="container py-5">
+    <div class="row justify-content-center align-items-center" style="min-height: 70vh;">
+        <div class="col-md-8 col-lg-5">
+            <!-- Branding/Logo Placeholder -->
+            <div class="text-center mb-4">
+                <i class="fas fa-trophy fa-3x text-warning mb-2"></i>
+                <h2 class="fw-bold text-dark">FIFA WORLD CUP <span class="text-primary">2026</span></h2>
+            </div>
+
+            <div class="card shadow-lg login-card">
+                <div class="card-body p-4 p-md-5">
+                    <h3 class="text-center mb-4 fw-light">Welcome Back</h3>
+
+                    <!-- Flash Messages -->
                     {% with messages = get_flashed_messages(with_categories=true) %}
                         {% if messages %}
                             {% for category, message in messages %}
-                                <div class="alert alert-{{ 'danger' if category == 'danger' else 'success' }}">
-                                    {{ message }}
+                                <div class="alert alert-{{ 'danger' if category == 'danger' else 'success' }} alert-dismissible fade show" role="alert">
+                                    <small>{{ message }}</small>
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                                 </div>
                             {% endfor %}
                         {% endif %}
                     {% endwith %}
 
                     <form method="POST">
+                        <!-- Email Input -->
                         <div class="mb-3">
-                            <label class="form-label">Email Address</label>
-                            <input type="email" name="email" class="form-control" required>
+                            <label class="form-label small fw-bold text-muted">EMAIL ADDRESS</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                                <input type="email" name="email" class="form-control" placeholder="name@example.com" required>
+                            </div>
                         </div>
+
+                        <!-- Password Input -->
                         <div class="mb-4">
-                            <label class="form-label">Password</label>
-                            <input type="password" name="password" class="form-control" required>
+                            <div class="d-flex justify-content-between">
+                                <label class="form-label small fw-bold text-muted">PASSWORD</label>
+                            </div>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                                <input type="password" name="password" class="form-control" placeholder="••••••••" required>
+                            </div>
                         </div>
-                        <button type="submit" class="btn btn-primary w-100 py-3">SIGN IN</button>
+
+                        <!-- Submit Button -->
+                        <button type="submit" class="btn btn-primary btn-fifa w-100 py-3 mb-3">
+                            SIGN IN
+                        </button>
                     </form>
 
-                    <!-- NEW: Sign Up Link -->
-                    <p class="text-center mt-3">
-                        Don't have an account? 
-                        <a href="{{ url_for('auth.signup') }}" class="text-decoration-none">
-                            <strong>Sign Up</strong>
-                        </a>
-                    </p>
+                    <!-- Sign Up Link -->
+                    <div class="text-center">
+                        <p class="text-muted small">
+                            Don't have an account? 
+                            <a href="{{ url_for('auth.signup') }}" class="text-primary text-decoration-none fw-bold">
+                                Sign Up Now
+                            </a>
+                        </p>
+                    </div>
                 </div>
             </div>
+            
+            <!-- Footer text -->
+            <p class="text-center text-muted mt-4 small">
+                &copy; 2026 FIFA World Cup™ Hub
+            </p>
         </div>
     </div>
 </div>

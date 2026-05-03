@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}{{ team.name }} - FIFA 2026{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <a href="{{ url_for('teams.explore_teams') }}" class="btn btn-outline-secondary mb-4">← Back to All Teams</a>
+
+    <div class="row align-items-center mb-5">
+        <div class="col-auto">
+            <span style="font-size: 7rem; line-height: 1;">{{ team.flag or '🌍' }}</span>
+        </div>
+        <div class="col">
+            <h1 class="display-4 fw-bold">{{ team.name }}</h1>
+            <p class="lead text-muted fs-3">{{ team.country }} • Group {{ team.group_name or 'TBD' }}</p>
+        </div>
+    </div>
+
+    <!-- Upcoming Matches -->
+    <h3 class="mb-4 text-primary">📅 Upcoming Matches</h3>
+    {% if upcoming_matches %}
+    <div class="row g-4">
+        {% for match in upcoming_matches %}
+        <div class="col-md-6">
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+                    <p class="text-center mb-0">
+                        <strong>{{ match.date }}</strong> • 
+                        {{ match.team_a.name if match.team_a_id == team.team_id else match.team_b.name }} 
+                        vs 
+                        {{ match.team_b.name if match.team_a_id == team.team_id else match.team_a.name }}
+                    </p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p class="text-muted">No upcoming matches found.</p>
+    {% endif %}
+</div>
+{% endblock %}

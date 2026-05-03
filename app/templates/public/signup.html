@@ -3,48 +3,123 @@
 {% block title %}Sign Up - FIFA 2026{% endblock %}
 
 {% block content %}
-<div class="container py-5">
-    <div class="row justify-content-center">
-        <div class="col-lg-5">
-            <div class="card shadow">
-                <div class="card-body p-5">
-                    <h2 class="text-center mb-4">Create Account</h2>
+<style>
+    /* Consistent design language with the Login page */
+    .signup-card {
+        border: none;
+        border-radius: 1rem;
+        overflow: hidden;
+    }
+    .input-group-text {
+        background-color: transparent;
+        border-right: none;
+        color: #6c757d;
+    }
+    .form-control {
+        border-left: none;
+    }
+    .form-control:focus {
+        border-color: #dee2e6;
+        box-shadow: none;
+    }
+    .btn-signup {
+        background: linear-gradient(45deg, #198754, #20c997);
+        border: none;
+        font-weight: 600;
+        letter-spacing: 1px;
+        transition: all 0.3s ease;
+    }
+    .btn-signup:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(25, 135, 84, 0.3);
+        background: linear-gradient(45deg, #157347, #198754);
+    }
+</style>
 
+<div class="container py-5">
+    <div class="row justify-content-center align-items-center" style="min-height: 80vh;">
+        <div class="col-md-8 col-lg-5">
+            <!-- Header Branding -->
+            <div class="text-center mb-4">
+                <i class="fas fa-user-plus fa-3x text-success mb-2"></i>
+                <h2 class="fw-bold text-dark">Join the <span class="text-success">FIFA 2026</span> Hub</h2>
+                <p class="text-muted">Create an account to start your journey.</p>
+            </div>
+
+            <div class="card shadow-lg signup-card">
+                <div class="card-body p-4 p-md-5">
+                    
+                    <!-- Flash Messages -->
                     {% with messages = get_flashed_messages(with_categories=true) %}
                         {% if messages %}
                             {% for category, message in messages %}
-                                <div class="alert alert-{{ 'danger' if category == 'danger' else 'success' }}">
-                                    {{ message }}
+                                <div class="alert alert-{{ 'danger' if category == 'danger' else 'success' }} alert-dismissible fade show" role="alert">
+                                    <small>{{ message }}</small>
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                                 </div>
                             {% endfor %}
                         {% endif %}
                     {% endwith %}
 
                     <form method="POST">
+                        <!-- Username -->
                         <div class="mb-3">
-                            <label class="form-label">Username</label>
-                            <input type="text" name="username" class="form-control" required>
+                            <label class="form-label small fw-bold text-muted">USERNAME</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                <input type="text" name="username" class="form-control" placeholder="Choose a unique name" required>
+                            </div>
                         </div>
+
+                        <!-- Email -->
                         <div class="mb-3">
-                            <label class="form-label">Email Address</label>
-                            <input type="email" name="email" class="form-control" required>
+                            <label class="form-label small fw-bold text-muted">EMAIL ADDRESS</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                                <input type="email" name="email" class="form-control" placeholder="yourname@example.com" required>
+                            </div>
                         </div>
+
+                        <!-- Password -->
                         <div class="mb-3">
-                            <label class="form-label">Password</label>
-                            <input type="password" name="password" class="form-control" required>
+                            <label class="form-label small fw-bold text-muted">PASSWORD</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                                <input type="password" name="password" class="form-control" placeholder="••••••••" required>
+                            </div>
                         </div>
+
+                        <!-- Confirm Password -->
                         <div class="mb-4">
-                            <label class="form-label">Confirm Password</label>
-                            <input type="password" name="confirm_password" class="form-control" required>
+                            <label class="form-label small fw-bold text-muted">CONFIRM PASSWORD</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-check-double"></i></span>
+                                <input type="password" name="confirm_password" class="form-control" placeholder="••••••••" required>
+                            </div>
                         </div>
-                        <button type="submit" class="btn btn-success w-100 py-3">CREATE ACCOUNT</button>
+
+                        <!-- Submit Button -->
+                        <button type="submit" class="btn btn-success btn-signup w-100 py-3 mb-3">
+                            CREATE ACCOUNT
+                        </button>
                     </form>
 
-                    <p class="text-center mt-3">
-                        Already have an account? <a href="{{ url_for('auth.login') }}">Sign In</a>
-                    </p>
+                    <!-- Sign In Link -->
+                    <div class="text-center">
+                        <p class="text-muted small">
+                            Already have an account? 
+                            <a href="{{ url_for('auth.login') }}" class="text-success text-decoration-none fw-bold">
+                                Sign In
+                            </a>
+                        </p>
+                    </div>
                 </div>
             </div>
+
+            <!-- Footer Branding -->
+            <p class="text-center text-muted mt-4 small">
+                Your data is secure and used only for your FIFA Hub experience.
+            </p>
         </div>
     </div>
 </div>

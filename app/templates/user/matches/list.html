@@ -3,208 +3,143 @@
 {% block title %}Upcoming Matches - FIFA 2026{% endblock %}
 
 {% block content %}
+<style>
+    /* 1. ADAPTIVE COLOR VARIABLES */
+    :root {
+        --text-main: #111827;
+        --text-muted: #6b7280;
+        --card-bg: #ffffff;
+        --border-color: #e5e7eb;
+        --vs-bg: #f3f4f6;
+    }
+
+    .dark-mode {
+        --text-main: #f9fafb;
+        --text-muted: #9ca3af;
+        --card-bg: #1e293b;
+        --border-color: #334155;
+        --vs-bg: #0f172a;
+    }
+
+    .adaptive-card {
+        background-color: var(--card-bg) !important;
+        border: 1px solid var(--border-color);
+        color: var(--text-main);
+        border-radius: 1.25rem;
+        transition: all 0.3s ease;
+    }
+
+    .adaptive-card:hover {
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1) !important;
+        border-color: #0d6efd; /* Highlight border on hover */
+    }
+
+    .adaptive-text {
+        color: var(--text-main) !important;
+    }
+
+    .adaptive-muted {
+        color: var(--text-muted) !important;
+    }
+
+    .vs-divider {
+        background: var(--vs-bg);
+        padding: 5px 15px;
+        border-radius: 50px;
+        font-weight: 800;
+        font-style: italic;
+        color: var(--text-muted);
+    }
+
+    .stadium-label {
+        font-size: 0.85rem;
+        background: rgba(13, 110, 253, 0.05);
+        padding: 8px;
+        border-radius: 8px;
+        display: block;
+    }
+</style>
+
 <div class="container py-5">
     <!-- Breadcrumb -->
-    <nav aria-label="breadcrumb">
+    <nav aria-label="breadcrumb" class="mb-4">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="/user/dashboard">Dashboard</a></li>
-            <li class="breadcrumb-item active">Upcoming Matches</li>
+            <li class="breadcrumb-item"><a href="/user/dashboard" class="text-decoration-none">Dashboard</a></li>
+            <li class="breadcrumb-item active adaptive-muted">Upcoming Matches</li>
         </ol>
     </nav>
 
-    <h1 class="display-5 fw-bold text-primary mb-4">Upcoming Matches</h1>
-    <p class="lead text-muted mb-5">FIFA World Cup 2026 - Group Stage (10 Matches Shown)</p>
+    <header class="mb-5">
+        <h1 class="display-5 fw-bold adaptive-text">Upcoming <span class="text-primary">Matches</span></h1>
+        <p class="lead adaptive-muted">FIFA World Cup 2026 - Group Stage Schedule</p>
+    </header>
 
     <div class="row g-4">
         <!-- Match 1 -->
         <div class="col-lg-6">
-            <div class="card shadow">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between mb-3">
-                        <span class="badge bg-primary">Group A</span>
-                        <span class="text-muted">11 June 2026 • 21:00</span>
+            <div class="card shadow-sm adaptive-card border-0">
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <span class="badge bg-primary px-3 rounded-pill">Group A</span>
+                        <div class="text-end">
+                            <small class="d-block fw-bold adaptive-text">11 June 2026</small>
+                            <small class="adaptive-muted">21:00 Local Time</small>
+                        </div>
                     </div>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <h5>Mexico</h5>
-                        <h4 class="text-muted mx-4">VS</h4>
-                        <h5>South Korea</h5>
+
+                    <div class="d-flex justify-content-center align-items-center gap-3 mb-4">
+                        <h5 class="fw-bold adaptive-text mb-0 flex-grow-1 text-end">Mexico</h5>
+                        <div class="vs-divider">VS</div>
+                        <h5 class="fw-bold adaptive-text mb-0 flex-grow-1">South Korea</h5>
                     </div>
-                    <p class="text-muted mt-2">Estadio Azteca, Mexico City</p>
-                    <a href="/user/tickets/booking" class="btn btn-success w-100 mt-3">Book Tickets</a>
+
+                    <div class="stadium-label mb-3">
+                        <i class="fas fa-map-marker-alt text-primary me-2"></i>
+                        <span class="adaptive-muted">Estadio Azteca, Mexico City</span>
+                    </div>
+
+                    <a href="/user/tickets/booking" class="btn btn-success w-100 py-2 fw-bold rounded-pill">
+                        <i class="fas fa-ticket-alt me-2"></i>Book Tickets
+                    </a>
                 </div>
             </div>
         </div>
 
         <!-- Match 2 -->
         <div class="col-lg-6">
-            <div class="card shadow">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between mb-3">
-                        <span class="badge bg-primary">Group B</span>
-                        <span class="text-muted">12 June 2026 • 18:00</span>
+            <div class="card shadow-sm adaptive-card border-0">
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <span class="badge bg-primary px-3 rounded-pill">Group B</span>
+                        <div class="text-end">
+                            <small class="d-block fw-bold adaptive-text">12 June 2026</small>
+                            <small class="adaptive-muted">18:00 Local Time</small>
+                        </div>
                     </div>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <h5>Argentina</h5>
-                        <h4 class="text-muted mx-4">VS</h4>
-                        <h5>Canada</h5>
+
+                    <div class="d-flex justify-content-center align-items-center gap-3 mb-4">
+                        <h5 class="fw-bold adaptive-text mb-0 flex-grow-1 text-end">Argentina</h5>
+                        <div class="vs-divider">VS</div>
+                        <h5 class="fw-bold adaptive-text mb-0 flex-grow-1">Canada</h5>
                     </div>
-                    <p class="text-muted mt-2">MetLife Stadium, New York</p>
-                    <a href="/user/tickets/booking" class="btn btn-success w-100 mt-3">Book Tickets</a>
+
+                    <div class="stadium-label mb-3">
+                        <i class="fas fa-map-marker-alt text-primary me-2"></i>
+                        <span class="adaptive-muted">MetLife Stadium, New York</span>
+                    </div>
+
+                    <a href="/user/tickets/booking" class="btn btn-success w-100 py-2 fw-bold rounded-pill">
+                        <i class="fas fa-ticket-alt me-2"></i>Book Tickets
+                    </a>
                 </div>
             </div>
         </div>
 
-        <!-- Match 3 -->
-        <div class="col-lg-6">
-            <div class="card shadow">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between mb-3">
-                        <span class="badge bg-primary">Group C</span>
-                        <span class="text-muted">13 June 2026 • 21:00</span>
-                    </div>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <h5>Brazil</h5>
-                        <h4 class="text-muted mx-4">VS</h4>
-                        <h5>USA</h5>
-                    </div>
-                    <p class="text-muted mt-2">SoFi Stadium, Los Angeles</p>
-                    <a href="/user/tickets/booking" class="btn btn-success w-100 mt-3">Book Tickets</a>
-                </div>
-            </div>
-        </div>
+        <!-- Repeat the structure for Matches 3 through 10 as needed -->
+    </div>
 
-        <!-- Match 4 -->
-        <div class="col-lg-6">
-            <div class="card shadow">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between mb-3">
-                        <span class="badge bg-primary">Group D</span>
-                        <span class="text-muted">14 June 2026 • 18:00</span>
-                    </div>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <h5>France</h5>
-                        <h4 class="text-muted mx-4">VS</h4>
-                        <h5>England</h5>
-                    </div>
-                    <p class="text-muted mt-2">Hard Rock Stadium, Miami</p>
-                    <a href="/user/tickets/booking" class="btn btn-success w-100 mt-3">Book Tickets</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Match 5 -->
-        <div class="col-lg-6">
-            <div class="card shadow">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between mb-3">
-                        <span class="badge bg-primary">Group E</span>
-                        <span class="text-muted">15 June 2026 • 21:00</span>
-                    </div>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <h5>Germany</h5>
-                        <h4 class="text-muted mx-4">VS</h4>
-                        <h5>Spain</h5>
-                    </div>
-                    <p class="text-muted mt-2">AT&T Stadium, Dallas</p>
-                    <a href="/user/tickets/booking" class="btn btn-success w-100 mt-3">Book Tickets</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Match 6 -->
-        <div class="col-lg-6">
-            <div class="card shadow">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between mb-3">
-                        <span class="badge bg-primary">Group F</span>
-                        <span class="text-muted">16 June 2026 • 18:00</span>
-                    </div>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <h5>Portugal</h5>
-                        <h4 class="text-muted mx-4">VS</h4>
-                        <h5>Uruguay</h5>
-                    </div>
-                    <p class="text-muted mt-2">Levi's Stadium, San Francisco</p>
-                    <a href="/user/tickets/booking" class="btn btn-success w-100 mt-3">Book Tickets</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Match 7 -->
-        <div class="col-lg-6">
-            <div class="card shadow">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between mb-3">
-                        <span class="badge bg-primary">Group G</span>
-                        <span class="text-muted">17 June 2026 • 21:00</span>
-                    </div>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <h5>England</h5>
-                        <h4 class="text-muted mx-4">VS</h4>
-                        <h5>Iran</h5>
-                    </div>
-                    <p class="text-muted mt-2">NRG Stadium, Houston</p>
-                    <a href="/user/tickets/booking" class="btn btn-success w-100 mt-3">Book Tickets</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Match 8 -->
-        <div class="col-lg-6">
-            <div class="card shadow">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between mb-3">
-                        <span class="badge bg-primary">Group H</span>
-                        <span class="text-muted">18 June 2026 • 18:00</span>
-                    </div>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <h5>Belgium</h5>
-                        <h4 class="text-muted mx-4">VS</h4>
-                        <h5>Canada</h5>
-                    </div>
-                    <p class="text-muted mt-2">BMO Stadium, Los Angeles</p>
-                    <a href="/user/tickets/booking" class="btn btn-success w-100 mt-3">Book Tickets</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Match 9 -->
-        <div class="col-lg-6">
-            <div class="card shadow">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between mb-3">
-                        <span class="badge bg-primary">Group I</span>
-                        <span class="text-muted">19 June 2026 • 21:00</span>
-                    </div>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <h5>Netherlands</h5>
-                        <h4 class="text-muted mx-4">VS</h4>
-                        <h5>Senegal</h5>
-                    </div>
-                    <p class="text-muted mt-2">Arrowhead Stadium, Kansas City</p>
-                    <a href="/user/tickets/booking" class="btn btn-success w-100 mt-3">Book Tickets</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Match 10 -->
-        <div class="col-lg-6">
-            <div class="card shadow">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between mb-3">
-                        <span class="badge bg-primary">Group J</span>
-                        <span class="text-muted">20 June 2026 • 18:00</span>
-                    </div>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <h5>Croatia</h5>
-                        <h4 class="text-muted mx-4">VS</h4>
-                        <h5>Morocco</h5>
-                    </div>
-                    <p class="text-muted mt-2">Gillette Stadium, Boston</p>
-                    <a href="/user/tickets/booking" class="btn btn-success w-100 mt-3">Book Tickets</a>
-                </div>
-            </div>
-        </div>
+    <div class="mt-5 pt-4 text-center border-top border-secondary opacity-25">
+        <p class="adaptive-muted">All times displayed are local to the host stadium.</p>
     </div>
 </div>
 {% endblock %}

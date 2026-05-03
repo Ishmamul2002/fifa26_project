@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block title %}Team Hub - FIFA 2026{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <h1 class="display-5 fw-bold text-center mb-4">🌍Team Hub</h1>
+    <p class="text-center text-muted mb-5">Discover all participating teams</p>
+
+    <!-- Search & Filter -->
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <form method="GET">
+                <div class="input-group">
+                    <input type="text" name="search" class="form-control" placeholder="Search team or country..." value="{{ search or '' }}">
+                    <button class="btn btn-primary" type="submit">Search</button>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-6">
+            <select class="form-select" onchange="window.location=this.value">
+                <option value="{{ url_for('teams.explore_teams') }}">All Groups</option>
+                {% for g in groups %}
+                <option value="{{ url_for('teams.explore_teams', group=g) }}" {% if selected_group == g %}selected{% endif %}>
+                    Group {{ g }}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+
+    <!-- Featured Teams -->
+    <h4 class="mb-3">⭐ Featured Teams</h4>
+    <div class="row g-3 mb-5">
+        {% for team in featured_teams %}
+        <div class="col-6 col-md-4 col-lg-2">
+            <div class="card text-center h-100 shadow-sm">
+                <div class="card-body">
+                    <div class="mb-3" style="font-size: 3.5rem; line-height: 1;">
+                        {{ team.flag or '🌍' }}
+                    </div>
+                    <h6>{{ team.name }}</h6>
+                    {% if team.group_name %}<small class="text-muted">Group {{ team.group_name }}</small>{% endif %}
+                    <a href="{{ url_for('teams.team_detail', team_id=team.team_id) }}" class="btn btn-outline-primary btn-sm mt-2 w-100">View</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- All Teams -->
+    <h4>All Teams ({{ teams|length }})</h4>
+    <div class="row g-4">
+        {% for team in teams %}
+        <div class="col-md-6 col-lg-4">
+            <div class="card h-100 shadow">
+                <div class="card-body">
+                    <div class="d-flex align-items-center mb-3">
+                        <div style="font-size: 3rem; margin-right: 15px; line-height: 1;">
+                            {{ team.flag or '🌍' }}
+                        </div>
+                        <div>
+                            <h5>{{ team.name }}</h5>
+                            {% if team.group_name %}<p><strong>Group:</strong> {{ team.group_name }}</p>{% endif %}
+                        </div>
+                    </div>
+                    <a href="{{ url_for('teams.team_detail', team_id=team.team_id) }}" class="btn btn-primary w-100 mt-3">Explore Team →</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,141 @@
+{% extends "base.html" %}
+
+{% block title %}Player Cards - FIFA 2026{% endblock %}
+
+{% block content %}
+<style>
+    /* 1. ADAPTIVE COLOR VARIABLES */
+    :root {
+        --text-main: #111827;
+        --text-muted: #6b7280;
+        --card-bg: #ffffff;
+        --border-color: #e5e7eb;
+        --input-bg: #f9fafb;
+        --footer-bg: rgba(249, 250, 251, 0.8);
+    }
+
+    .dark-mode {
+        --text-main: #f9fafb;
+        --text-muted: #9ca3af;
+        --card-bg: #1e293b;
+        --border-color: #334155;
+        --input-bg: #0f172a;
+        --footer-bg: rgba(15, 23, 42, 0.8);
+    }
+
+    .adaptive-card {
+        background-color: var(--card-bg) !important;
+        border: 1px solid var(--border-color);
+        color: var(--text-main);
+        border-radius: 1.25rem;
+        overflow: hidden;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .adaptive-card:hover {
+        transform: translateY(-8px);
+        border-color: #0d6efd;
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15) !important;
+    }
+
+    .adaptive-text {
+        color: var(--text-main) !important;
+    }
+
+    .adaptive-muted {
+        color: var(--text-muted) !important;
+    }
+
+    .form-control-adaptive {
+        background-color: var(--input-bg) !important;
+        border: 1px solid var(--border-color) !important;
+        color: var(--text-main) !important;
+        border-radius: 0.75rem;
+    }
+
+    .card-footer-adaptive {
+        background-color: var(--footer-bg) !important;
+        border-top: 1px solid var(--border-color) !important;
+        backdrop-filter: blur(4px);
+    }
+
+    .player-avatar-circle {
+        width: 80px;
+        height: 80px;
+        background: var(--input-bg);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1.5rem;
+        font-size: 2.5rem;
+        border: 2px solid var(--border-color);
+    }
+</style>
+
+<div class="container py-5">
+    <header class="text-center mb-5">
+        <h1 class="display-5 fw-bold adaptive-text">⚽ Player <span class="text-primary">Cards</span></h1>
+        <p class="lead adaptive-muted">Discover and analyze top talent for the 2026 World Cup</p>
+    </header>
+
+    <!-- Adaptive Search Bar -->
+    <div class="row mb-5 justify-content-center">
+        <div class="col-lg-6">
+            <form method="GET" class="d-flex shadow-sm rounded-pill p-1 bg-card-adaptive border border-secondary border-opacity-25" style="background-color: var(--card-bg);">
+                <input type="text" name="search" class="form-control border-0 bg-transparent px-4 adaptive-text" 
+                       placeholder="Search by player name..." value="{{ search or '' }}">
+                <button class="btn btn-primary rounded-pill px-4" type="submit">
+                    <i class="fas fa-search me-1"></i> Search
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        {% for player in players %}
+        <div class="col-md-6 col-lg-4 col-xl-3">
+            <div class="card h-100 shadow-sm adaptive-card border-0">
+                <div class="card-body text-center p-4">
+                    <div class="player-avatar-circle">👤</div>
+                    
+                    <h5 class="fw-bold adaptive-text mb-1">{{ player.name }}</h5>
+                    <p class="small adaptive-muted mb-3 text-uppercase fw-semibold letter-spacing-1">
+                        {{ player.position }} • Age {{ player.age }}
+                    </p>
+                    
+                    <div class="p-2 rounded-3 mb-3" style="background: rgba(13, 110, 253, 0.05);">
+                        <span class="small adaptive-muted">Current Team:</span>
+                        <div class="fw-bold adaptive-text">{{ player.team.name if player.team else 'Free Agent' }}</div>
+                    </div>
+                    
+                    <div class="d-flex justify-content-center gap-2 mt-3">
+                        <span class="badge bg-success-subtle text-success border border-success border-opacity-25 px-2">
+                            {{ player.goals_scored }} Goals
+                        </span>
+                        <span class="badge bg-info-subtle text-info border border-info border-opacity-25 px-2">
+                            {{ player.assists }} Assists
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-footer card-footer-adaptive p-3">
+                    <a href="{{ url_for('players.player_detail', player_id=player.player_id) }}" 
+                       class="btn btn-outline-primary btn-sm w-100 rounded-pill fw-bold">
+                        View Full Profile
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    {% if not players %}
+    <div class="text-center py-5">
+        <i class="fas fa-user-slash fa-3x adaptive-muted mb-3"></i>
+        <p class="h5 adaptive-muted">No players match your search criteria.</p>
+        <a href="{{ url_for('players.explore_players') }}" class="btn btn-link">Clear all filters</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

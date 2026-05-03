@@ -3,7 +3,6 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager
 
-
 db = SQLAlchemy()
 migrate = Migrate()
 login_manager = LoginManager()
@@ -18,18 +17,27 @@ def create_app():
     login_manager.init_app(app)
     login_manager.login_view = 'auth.login'
 
-    # Register Blueprints
-    from .routes.main import main_bp
-    from .routes.auth import auth_bp
-    from .routes.user.dashboard import user_bp
-    from .routes.admin.dashboard import admin_bp
-    from .routes.user.analytics import analytics_bp
+    # Import models first
+    with app.app_context():
+        from . import models
 
-    app.register_blueprint(main_bp)
-    app.register_blueprint(auth_bp, url_prefix='/auth')
-    app.register_blueprint(user_bp)
-    app.register_blueprint(admin_bp)
-    app.register_blueprint(analytics_bp)
+        # Import Blueprints
+        from .routes.main import main_bp
+        from .routes.auth import auth_bp
+        from .routes.user.dashboard import user_bp
+        from .routes.admin.dashboard import admin_bp
+        from .routes.user.analytics import analytics_bp
+        from .routes.user.teams import teams_bp
+        from .routes.user.players import players_bp   # ← New Player Module
+
+        # Register Blueprints
+        app.register_blueprint(main_bp)
+        app.register_blueprint(auth_bp, url_prefix='/auth')
+        app.register_blueprint(user_bp)
+        app.register_blueprint(admin_bp)
+        app.register_blueprint(analytics_bp)
+        app.register_blueprint(teams_bp)
+        app.register_blueprint(players_bp)            # ← Registered here
 
     # User Loader
     @login_manager.user_loader
@@ -39,7 +47,7 @@ def create_app():
 
     # Create tables
     with app.app_context():
-        from . import models    # ← This deletes old tables
-        db.create_all()    # ← This creates new correct tables
+        db.create_all()
+
     print("✅ FIFA 2026 App started successfully!")
     return app

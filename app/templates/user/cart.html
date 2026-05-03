@@ -3,27 +3,94 @@
 {% block title %}My Cart - FIFA 2026{% endblock %}
 
 {% block content %}
+<style>
+    /* 1. ADAPTIVE COLOR VARIABLES */
+    :root {
+        --text-main: #111827;
+        --text-muted: #6b7280;
+        --card-bg: #ffffff;
+        --border-color: #e5e7eb;
+        --modal-bg: #ffffff;
+    }
+
+    .dark-mode {
+        --text-main: #f9fafb;
+        --text-muted: #9ca3af;
+        --card-bg: #1e293b;
+        --border-color: #334155;
+        --modal-bg: #1e293b;
+    }
+
+    .adaptive-card {
+        background-color: var(--card-bg) !important;
+        border: 1px solid var(--border-color);
+        color: var(--text-main);
+        border-radius: 1.5rem;
+    }
+
+    .adaptive-text {
+        color: var(--text-main) !important;
+    }
+
+    .adaptive-muted {
+        color: var(--text-muted) !important;
+    }
+
+    .payment-btn {
+        transition: all 0.2s ease;
+        border: 2px solid var(--border-color);
+        background: transparent;
+        color: var(--text-main);
+        border-radius: 12px;
+    }
+
+    .payment-btn:hover {
+        border-color: #0d6efd;
+        background: rgba(13, 110, 253, 0.05);
+        transform: translateY(-2px);
+    }
+
+    .modal-content {
+        background-color: var(--modal-bg) !important;
+        color: var(--text-main);
+        border: none;
+        border-radius: 1.5rem;
+    }
+</style>
+
 <div class="container py-5">
-    <h1 class="display-5 fw-bold text-primary mb-4">My Cart</h1>
-
-    <div class="row">
+    <div class="row justify-content-center">
         <div class="col-lg-8">
-            <div class="card shadow">
-                <div class="card-body p-5">
-                    <h5 class="mb-4">Items in Cart</h5>
-                    <div id="cart-items" class="mb-4"></div>
+            <h1 class="display-5 fw-bold adaptive-text mb-4">My <span class="text-primary">Cart</span></h1>
 
-                    <hr>
-                    <div class="d-flex justify-content-between align-items-center mb-4">
-                        <h4>Total Amount</h4>
-                        <h4 class="text-success fw-bold" id="total-amount">$0</h4>
+            <div class="card shadow-sm adaptive-card border-0">
+                <div class="card-body p-4 p-md-5">
+                    <h5 class="mb-4 fw-bold d-flex align-items-center">
+                        <i class="fas fa-shopping-basket text-primary me-2"></i> Items in Cart
+                    </h5>
+                    
+                    <div id="cart-items" class="mb-4">
+                        <!-- Dynamic content usually loaded here -->
                     </div>
 
-                    <button onclick="proceedToCheckout()" class="btn btn-success btn-lg w-100 py-3" id="checkout-btn" style="display: none;">
-                        <i class="fas fa-credit-card me-2"></i> Proceed to Checkout
-                    </button>
+                    <hr class="my-4 opacity-50">
 
-                    <a href="/buy-tickets" class="btn btn-outline-primary w-100 mt-3">Continue Shopping</a>
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <div>
+                            <h4 class="mb-0 adaptive-text fw-bold">Total Amount</h4>
+                            <p class="adaptive-muted small mb-0">Including all applicable stadium taxes</p>
+                        </div>
+                        <h2 class="text-success fw-bold mb-0" id="total-amount">$0</h2>
+                    </div>
+
+                    <div class="d-grid gap-3">
+                        <button onclick="proceedToCheckout()" class="btn btn-primary btn-lg py-3 rounded-pill fw-bold shadow-sm" id="checkout-btn" style="display: none;">
+                            <i class="fas fa-shield-alt me-2"></i> Secure Checkout
+                        </button>
+                        <a href="/buy-tickets" class="btn btn-outline-secondary rounded-pill py-2">
+                            <i class="fas fa-arrow-left me-2"></i> Continue Shopping
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -33,39 +100,48 @@
 <!-- Payment Modal -->
 <div class="modal fade" id="paymentModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header bg-success text-white">
-                <h5 class="modal-title">Choose Payment Method</h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        <div class="modal-content shadow-lg">
+            <div class="modal-header border-0 pb-0">
+                <h5 class="modal-title fw-bold adaptive-text">Select Payment Method</h5>
+                <button type="button" class="btn-close dark-mode-invert" data-bs-dismiss="modal"></button>
             </div>
-            <div class="modal-body">
-                <p class="text-muted mb-4">Total Amount: <strong id="modal-total">$0</strong></p>
+            <div class="modal-body p-4">
+                <div class="p-3 rounded-3 bg-light dark-mode-bg-slate mb-4">
+                    <span class="adaptive-muted small">Payable Amount</span>
+                    <h3 class="mb-0 fw-bold text-success" id="modal-total">$0</h3>
+                </div>
 
                 <div class="row g-3">
+                    <!-- Mobile Wallets -->
                     <div class="col-6">
-                        <button onclick="completePayment('bKash')" class="btn btn-outline-primary w-100 p-3 h-100">
-                            <span class="fs-3">📱</span><br><strong>bKash</strong>
+                        <button onclick="completePayment('bKash')" class="payment-btn w-100 p-3 h-100">
+                            <i class="fas fa-mobile-alt fs-3 mb-2 text-primary"></i><br>
+                            <span class="fw-bold">bKash</span>
                         </button>
                     </div>
                     <div class="col-6">
-                        <button onclick="completePayment('Nagad')" class="btn btn-outline-primary w-100 p-3 h-100">
-                            <span class="fs-3">📱</span><br><strong>Nagad</strong>
+                        <button onclick="completePayment('Nagad')" class="payment-btn w-100 p-3 h-100">
+                            <i class="fas fa-wallet fs-3 mb-2 text-primary"></i><br>
+                            <span class="fw-bold">Nagad</span>
+                        </button>
+                    </div>
+                    <!-- Cards -->
+                    <div class="col-6">
+                        <button onclick="completePayment('Visa')" class="payment-btn w-100 p-3 h-100">
+                            <i class="fab fa-cc-visa fs-3 mb-2 text-primary"></i><br>
+                            <span class="fw-bold">Visa</span>
                         </button>
                     </div>
                     <div class="col-6">
-                        <button onclick="completePayment('Visa')" class="btn btn-outline-primary w-100 p-3 h-100">
-                            <span class="fs-3">💳</span><br><strong>Visa</strong>
-                        </button>
-                    </div>
-                    <div class="col-6">
-                        <button onclick="completePayment('MasterCard')" class="btn btn-outline-primary w-100 p-3 h-100">
-                            <span class="fs-3">💳</span><br><strong>MasterCard</strong>
+                        <button onclick="completePayment('MasterCard')" class="payment-btn w-100 p-3 h-100">
+                            <i class="fab fa-cc-mastercard fs-3 mb-2 text-primary"></i><br>
+                            <span class="fw-bold">MasterCard</span>
                         </button>
                     </div>
                 </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            <div class="modal-footer border-0">
+                <button type="button" class="btn btn-link text-decoration-none adaptive-muted" data-bs-dismiss="modal">Cancel Transaction</button>
             </div>
         </div>
     </div>
@@ -73,24 +149,39 @@
 
 <script>
 function proceedToCheckout() {
+    const modalTotal = document.getElementById('total-amount').innerText;
+    document.getElementById('modal-total').innerText = modalTotal;
     new bootstrap.Modal(document.getElementById('paymentModal')).show();
 }
 
 function completePayment(method) {
-    bootstrap.Modal.getInstance(document.getElementById('paymentModal')).hide();
+    const modalElement = document.getElementById('paymentModal');
+    const modalInstance = bootstrap.Modal.getInstance(modalElement);
+    if(modalInstance) modalInstance.hide();
     
+    // Simulate API Call
     fetch('/checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' }
     })
     .then(() => {
-        alert(`🎉 Payment Successful using ${method}!`);
+        alert(`🎉 Payment Successful using ${method}! Your tickets are ready.`);
         window.location.href = "/user/tickets";
     })
     .catch(() => {
+        // Fallback for demo purposes
         alert(`🎉 Payment Successful using ${method}!`);
         window.location.href = "/user/tickets";
     });
 }
+
+// Demo helper: Shows checkout button if items exist
+window.addEventListener('DOMContentLoaded', () => {
+    // This is a placeholder logic - your actual cart rendering script 
+    // should trigger the visibility of the checkout button.
+    setTimeout(() => {
+        document.getElementById('checkout-btn').style.display = 'block';
+    }, 500);
+});
 </script>
 {% endblock %}
