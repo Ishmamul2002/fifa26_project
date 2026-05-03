@@ -28,8 +28,11 @@ def create_app():
         from .routes.admin.dashboard import admin_bp
         from .routes.user.analytics import analytics_bp
         from .routes.user.teams import teams_bp
-        from .routes.user.players import players_bp   # ← New Player Module
+        from .routes.user.players import players_bp  
+        from .routes.leaderboard import leaderboard_bp
+        from .routes.fanzone import fanzone_bp
 
+        
         # Register Blueprints
         app.register_blueprint(main_bp)
         app.register_blueprint(auth_bp, url_prefix='/auth')
@@ -37,7 +40,9 @@ def create_app():
         app.register_blueprint(admin_bp)
         app.register_blueprint(analytics_bp)
         app.register_blueprint(teams_bp)
-        app.register_blueprint(players_bp)            # ← Registered here
+        app.register_blueprint(players_bp)            
+        app.register_blueprint(leaderboard_bp)
+        app.register_blueprint(fanzone_bp)
 
     # User Loader
     @login_manager.user_loader

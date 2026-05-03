@@ -21,7 +21,8 @@ def upcoming_matches():
     query = Match.query.filter(Match.date >= datetime.utcnow().date())
     
     if search_query:
-        query = query.join(Team, (Match.team_a_id == Team.team_id) | (Match.team_b_id == Team.team_id))\
+        query = query.join(Team, (Match.team_a_id == Team.team_id) | 
+                                 (Match.team_b_id == Team.team_id))\
                      .filter(Team.name.ilike(f'%{search_query}%'))
     
     matches = query.order_by(Match.date).limit(12).all()

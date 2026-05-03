@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block title %}Fan Zone - FIFA 2026{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <h1 class="display-5 fw-bold text-center mb-4">⚽ FIFA 2026 Fan Zone</h1>
+    <p class="text-center text-muted mb-5">Connect, Predict, Cheer & Compete with Fans Worldwide</p>
+
+    <div class="row g-4">
+        
+        <!-- Fan Wall -->
+        <div class="col-lg-4">
+            <div class="card h-100 shadow">
+                <div class="card-body text-center">
+                    <h3 class="text-primary"><i class="fas fa-comments"></i></h3>
+                    <h5>Fan Wall</h5>
+                    <p class="text-muted">Share your thoughts, memes & excitement</p>
+                    <a href="#" class="btn btn-primary w-100">Join Conversation</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Match Predictions -->
+        <div class="col-lg-4">
+            <div class="card h-100 shadow">
+                <div class="card-body text-center">
+                    <h3 class="text-warning"><i class="fas fa-crystal-ball"></i></h3>
+                    <h5>Match Predictions</h5>
+                    <p class="text-muted">Predict scores and earn points</p>
+                    <a href="#" class="btn btn-warning w-100">Make Prediction</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Polls -->
+        <div class="col-lg-4">
+            <div class="card h-100 shadow">
+                <div class="card-body text-center">
+                    <h3 class="text-success"><i class="fas fa-poll"></i></h3>
+                    <h5>Live Polls</h5>
+                    <p class="text-muted">Vote on hot topics</p>
+                    <a href="#" class="btn btn-success w-100">Vote Now</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- More Features -->
+        <div class="col-12 mt-5">
+            <h4 class="text-center mb-4">More Fan Zone Features</h4>
+            <div class="row text-center">
+                <div class="col-md-3">
+                    <div class="p-3">
+                        <i class="fas fa-trophy fa-2x text-gold mb-2"></i>
+                        <h6>Fan Leaderboard</h6>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="p-3">
+                        <i class="fas fa-images fa-2x text-info mb-2"></i>
+                        <h6>Photo Gallery</h6>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="p-3">
+                        <i class="fas fa-video fa-2x text-danger mb-2"></i>
+                        <h6>Watch Party</h6>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="p-3">
+                        <i class="fas fa-heart fa-2x text-danger mb-2"></i>
+                        <h6>My Favorites</h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

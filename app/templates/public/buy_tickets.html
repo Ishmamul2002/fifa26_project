@@ -26,8 +26,26 @@
                             <span class="badge bg-warning">{{ match.date.strftime('%d %b %Y') }}</span>
                             <span class="badge bg-info ms-2">{{ match.time.strftime('%H:%M') if match.time else 'N/A' }}</span>
                         </div>
-                        <h5 class="text-center">{{ match.team_a.name }} <span class="text-danger">VS</span> {{ match.team_b.name }}</h5>
-                        <p class="text-center text-muted small">{{ match.venue or 'N/A' }}</p>
+                        
+                        <h5 class="text-center">
+                            {{ match.team_a.name if match.team_a else 'TBD' }}
+                            {% if match.team_a and match.team_a.ranking %}
+                                <span class="rank-badge {% if match.team_a.ranking <= 10 %}top-10{% endif %} ms-2">
+                                    #{{ match.team_a.ranking }}
+                                </span>
+                            {% endif %}
+                            
+                            <span class="text-danger mx-2">VS</span>
+                            
+                            {{ match.team_b.name if match.team_b else 'TBD' }}
+                            {% if match.team_b and match.team_b.ranking %}
+                                <span class="rank-badge {% if match.team_b.ranking <= 10 %}top-10{% endif %} ms-2">
+                                    #{{ match.team_b.ranking }}
+                                </span>
+                            {% endif %}
+                        </h5>
+                        
+                        <p class="text-center text-muted small mt-2">{{ match.venue or 'N/A' }}</p>
                     </div>
                     <div class="card-footer">
                         <a href="{{ url_for('main.book_ticket', match_id=match.match_id) }}" 

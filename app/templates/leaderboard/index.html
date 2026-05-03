@@ -1,0 +1,143 @@
+{% extends "base.html" %}
+
+{% block title %}Leaderboard & Rankings - FIFA 2026{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <h1 class="display-5 fw-bold text-center mb-5">FIFA 2026 Leaderboard</h1>
+
+    <!-- Tabs -->
+    <ul class="nav nav-pills nav-fill mb-5" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="groups-tab" data-bs-toggle="tab" 
+                    data-bs-target="#groups" type="button" role="tab">
+                Group Standings
+            </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="top-teams-tab" data-bs-toggle="tab" 
+                    data-bs-target="#top-teams" type="button" role="tab">
+                Top Ranked Teams
+            </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="scorers-tab" data-bs-toggle="tab" 
+                    data-bs-target="#top-scorers" type="button" role="tab">
+                Top Scorers
+            </button>
+        </li>
+    </ul>
+
+    <div class="tab-content" id="myTabContent">
+        
+        <!-- Group Standings -->
+        <div class="tab-pane fade show active" id="groups" role="tabpanel">
+            <h3 class="mb-4">Group Standings</h3>
+            <div class="row g-4">
+                {% for group_name, teams in groups.items() %}
+                <div class="col-lg-6">
+                    <div class="card shadow">
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="mb-0">GROUP {{ group_name }}</h5>
+                        </div>
+                        <div class="card-body p-0">
+                            <table class="table table-hover mb-0">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th width="80">Rank</th>
+                                        <th>Team</th>
+                                        <th>Country</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for team in teams %}
+                                    <tr>
+                                        <td><span class="rank-badge">{{ team.ranking }}</span></td>
+                                        <td><strong>{{ team.name }}</strong></td>
+                                        <td>{{ team.country }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Top Ranked Teams -->
+        <div class="tab-pane fade" id="top-teams" role="tabpanel">
+            <h3 class="mb-4">Top 16 Ranked Teams</h3>
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead class="table-dark">
+                        <tr>
+                            <th width="100">Rank</th>
+                            <th>Team</th>
+                            <th>Country</th>
+                            <th>Group</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for team in top_teams %}
+                        <tr>
+                            <td><span class="rank-badge {% if team.ranking <= 10 %}top-10{% endif %}">#{{ team.ranking }}</span></td>
+                            <td><strong>{{ team.name }}</strong></td>
+                            <td>{{ team.country }}</td>
+                            <td><span class="badge bg-secondary">Group {{ team.group_name or '—' }}</span></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Top Scorers -->
+        <div class="tab-pane fade" id="top-scorers" role="tabpanel">
+            <h3 class="mb-4">Top Scorers (Tournament)</h3>
+            
+            {% if top_scorers %}
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead class="table-success">
+                        <tr>
+                            <th width="80">Rank</th>
+                            <th>Player Name</th>
+                            <th>Team</th>
+                            <th>Position</th>
+                            <th class="text-end">Goals</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for player in top_scorers %}
+                        <tr>
+                            <td><strong>#{{ loop.index }}</strong></td>
+                            <td><strong>{{ player.name }}</strong></td>
+                            <td>
+                                {% if player.team %}
+                                    {{ player.team.name }}
+                                {% else %}
+                                    <span class="text-muted">—</span>
+                                {% endif %}
+                            </td>
+                            <td>{{ player.position or '—' }}</td>
+                            <td class="text-end">
+                                <span class="badge bg-success fs-5 px-3">{{ player.goals_scored }}</span>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <div class="text-center py-5">
+                <i class="fas fa-futbol fa-5x text-muted mb-4"></i>
+                <h5>No goals recorded yet</h5>
+                <p class="text-muted">Add players with goals_scored in your database to see rankings.</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

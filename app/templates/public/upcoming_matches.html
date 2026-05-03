@@ -36,18 +36,28 @@
                         </div>
                         
                         <div class="d-flex justify-content-between align-items-center my-4">
+                            <!-- Team A -->
                             <div class="text-center flex-fill">
-                                <h4 class="fw-bold">
-                                    {{ match.team_a.name if match.team_a else 'TBD' }}
-                                </h4>
+                                <h4 class="fw-bold">{{ match.team_a.name if match.team_a else 'TBD' }}</h4>
+                                {% if match.team_a and match.team_a.ranking %}
+                                    <span class="rank-badge {% if match.team_a.ranking <= 10 %}top-10{% endif %}">
+                                        <i class="fas fa-chart-line"></i> #{{ match.team_a.ranking }}
+                                    </span>
+                                {% endif %}
                             </div>
+
                             <div class="text-center px-4">
                                 <h2 class="text-danger">VS</h2>
                             </div>
+
+                            <!-- Team B -->
                             <div class="text-center flex-fill">
-                                <h4 class="fw-bold">
-                                    {{ match.team_b.name if match.team_b else 'TBD' }}
-                                </h4>
+                                <h4 class="fw-bold">{{ match.team_b.name if match.team_b else 'TBD' }}</h4>
+                                {% if match.team_b and match.team_b.ranking %}
+                                    <span class="rank-badge {% if match.team_b.ranking <= 10 %}top-10{% endif %}">
+                                        <i class="fas fa-chart-line"></i> #{{ match.team_b.ranking }}
+                                    </span>
+                                {% endif %}
                             </div>
                         </div>
 
@@ -61,7 +71,6 @@
                     </div>
                     
                     <div class="card-footer bg-light p-3 text-center">
-                        <!-- Updated Book Ticket Button -->
                         <a href="{{ url_for('main.book_ticket', match_id=match.match_id) }}" 
                            class="btn btn-success btn-lg px-5">
                             Book Ticket

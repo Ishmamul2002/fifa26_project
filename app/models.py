@@ -38,6 +38,10 @@ class Team(db.Model):
     flag = db.Column(db.String(255))        
     logo = db.Column(db.String(255))
     group_name = db.Column(db.String(1))
+    ranking = db.Column(db.Integer, nullable=True)
+
+    def __repr__(self):
+        return f'<Team {self.name}>'
 
 class Stadium(db.Model):
     __tablename__ = 'stadiums'

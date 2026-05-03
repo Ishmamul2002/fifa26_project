@@ -4,7 +4,6 @@
 
 {% block content %}
 <style>
-    /* Custom enhancements to complement Bootstrap */
     .dashboard-card {
         transition: transform 0.3s ease, box-shadow 0.3s ease;
         border: none;
@@ -140,15 +139,18 @@
             </div>
         </div>
 
+        <!-- Fan Zone Button -->
         <div class="col-lg-4 col-md-6">
             <div class="card h-100 shadow-sm text-center p-4 dashboard-card">
                 <div class="icon-box">
-                    <i class="fas fa-comments fa-3x btn-purple-text" style="color: #6f42c1;"></i>
+                    <i class="fas fa-comments fa-3x" style="color: #6f42c1;"></i>
                 </div>
                 <div class="card-body d-flex flex-column">
                     <h5 class="card-title fw-bold">Fan Zone</h5>
                     <p class="card-text text-muted small">Connect with millions of fans worldwide.</p>
-                    <a href="/user/fanzone" class="btn btn-purple w-100 mt-auto">Join Community</a>
+                    <a href="/fanzone" class="btn btn-lg btn-primary shadow mt-auto">
+                        <i class="fas fa-users me-2"></i> Join Fan Zone Community
+                    </a>
                 </div>
             </div>
         </div>
