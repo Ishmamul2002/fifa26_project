@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4">🏨 Book Hotels for FIFA 2026</h2>
+    
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <select id="locationSelect" class="form-control form-select" onchange="filterAndSortHotels()">
+                <option value="">🌍 All Locations</option>
+                {% for loc in locations %}
+                <option value="{{ loc }}">{{ loc }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="input-group">
+                <input type="text" id="searchBar" class="form-control" placeholder="🔍 Search hotel name..." onkeyup="filterAndSortHotels()">
+            </div>
+        </div>
+        
+        <div class="col-md-5">
+            <select id="sortSelect" class="form-control form-select" onchange="filterAndSortHotels()">
+                <option value="default">Sort By...</option>
+                <option value="price_desc">💰 Price: High to Low</option>
+                <option value="price_asc">💰 Price: Low to High</option>
+                <option value="rating_desc">⭐ Rating: High to Low</option>
+                <option value="rating_asc">⭐ Rating: Low to High</option>
+            </select>
+        </div>
+    </div>
+
+    <div id="hotelList" class="row"></div>
+</div>
+
+<script>
+async function filterAndSortHotels() {
+    const loc = document.getElementById('locationSelect').value;
+    const search = document.getElementById('searchBar').value.toLowerCase();
+    const sortBy = document.getElementById('sortSelect').value;
+
+    const res = await fetch(`/api/hotels?location=${encodeURIComponent(loc)}`);
+    let hotels = (await res.json()).hotels;
+
+    if (search) {
+        hotels = hotels.filter(h => h.name.toLowerCase().includes(search));
+    }
+
+    if (sortBy === 'price_desc') {
+        hotels.sort((a, b) => parseFloat(b.price_per_night) - parseFloat(a.price_per_night));
+    } else if (sortBy === 'price_asc') {
+        hotels.sort((a, b) => parseFloat(a.price_per_night) - parseFloat(b.price_per_night));
+    } else if (sortBy === 'rating_desc') {
+        hotels.sort((a, b) => parseFloat(b.rating) - parseFloat(a.rating));
+    } else if (sortBy === 'rating_asc') {
+        hotels.sort((a, b) => parseFloat(a.rating) - parseFloat(b.rating));
+    }
+
+    let html = '';
+    if (hotels.length === 0) {
+        html = `<div class="col-12"><div class="alert alert-info text-center">No hotels found.</div></div>`;
+    } else {
+        hotels.forEach(h => {
+            html += `
+            <div class="col-md-4 col-sm-6 mb-4">
+                <div class="card h-100 shadow">
+                    <div class="card-body">
+                        <h5 class="card-title">${h.name}</h5>
+                        <p class="card-text">
+                            📍 <strong>${h.location}</strong><br>
+                            💰 <strong>$${parseFloat(h.price_per_night).toFixed(2)}</strong> / night<br>
+                            ⭐ ${parseFloat(h.rating).toFixed(1)} 
+                        </p>
+                        <button onclick="bookHotel(${h.hotel_id}, '${h.name.replace(/'/g, "\\'")}')" 
+                                class="btn btn-success w-100 mt-2">Book Now</button>
+                    </div>
+                </div>
+            </div>`;
+        });
+    }
+    document.getElementById('hotelList').innerHTML = html;
+}
+
+function bookHotel(id, name) {
+    window.location.href = `/hotel-booking/${id}`;
+}
+
+window.onload = filterAndSortHotels;
+</script>
+{% endblock %}

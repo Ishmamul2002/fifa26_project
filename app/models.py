@@ -151,5 +151,18 @@ class Player(db.Model):
     team = db.relationship('Team', backref='players')
 
 
+class Hotel(db.Model):
+    __tablename__ = 'hotels'
+    
+    hotel_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    name = db.Column(db.String(100), nullable=False)
+    price_per_night = db.Column(db.Numeric(10,2), nullable=True)
+    location = db.Column(db.String(200), nullable=True)
+    rating = db.Column(db.Numeric(3,1), nullable=True)
+
+    def __repr__(self):
+        return f'<Hotel {self.name}>'
+
+
 
 print("✅ All models loaded successfully!")

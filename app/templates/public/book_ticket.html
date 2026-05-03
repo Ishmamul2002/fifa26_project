@@ -1,81 +1,111 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 
 {% block title %}Book Tickets - {{ match.team_a.name }} vs {{ match.team_b.name }}{% endblock %}
 
 {% block content %}
 <div class="container py-5">
     <div class="row justify-content-center">
-        <div class="col-lg-11">
+        <div class="col-lg-10">
             
             <!-- Match Header -->
             <div class="card shadow mb-5">
                 <div class="card-body text-center p-5 bg-primary text-white rounded-3">
-                    <h2 class="mb-2">
-                        {{ match.team_a.name }}
-                        {% if match.team_a and match.team_a.ranking %}
-                            <span class="rank-badge top-10 ms-3" style="font-size:1.1rem;">
-                                #{{ match.team_a.ranking }}
-                            </span>
-                        {% endif %}
-                        <span class="text-danger mx-3">VS</span> 
-                        {{ match.team_b.name }}
-                        {% if match.team_b and match.team_b.ranking %}
-                            <span class="rank-badge top-10 ms-3" style="font-size:1.1rem;">
-                                #{{ match.team_b.ranking }}
-                            </span>
-                        {% endif %}
-                    </h2>
+                    <h2 class="mb-2">{{ match.team_a.name }} <span class="text-danger">VS</span> {{ match.team_b.name }}</h2>
                     <h5>{{ match.date.strftime('%d %B %Y') }} • {{ match.time.strftime('%H:%M') if match.time else 'Time: N/A' }}</h5>
                     <p><strong>Venue:</strong> {{ match.venue or 'N/A' }}</p>
                 </div>
             </div>
 
-            <input type="hidden" id="match-id" value="{{ match.match_id }}">
-
             <h3 class="mb-4 text-center">Choose Ticket Category</h3>
 
-            <!-- Ticket Categories (unchanged) -->
             <div class="row g-4">
-                <!-- VIP, Premium, Economy cards remain the same -->
-                <!-- ... (your existing ticket cards) ... -->
+                <!-- VIP -->
+                <div class="col-md-4">
+                    <div class="card h-100 shadow border-success">
+                        <div class="card-header bg-success text-white text-center"><h5>VIP Category</h5></div>
+                        <div class="card-body text-center">
+                            <h3 class="text-success">$299</h3>
+                            <p class="text-muted">Best seats + Hospitality</p>
+                            <p><strong>Available:</strong> 48</p>
+                            <select class="form-select mb-3" id="vip-qty">
+                                <option value="1">1 Ticket</option>
+                                <option value="2">2 Tickets</option>
+                                <option value="3">3 Tickets</option>
+                            </select>
+                            <button class="btn btn-success w-100 add-to-cart" data-category="VIP" data-price="299">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Premium -->
+                <div class="col-md-4">
+                    <div class="card h-100 shadow border-primary">
+                        <div class="card-header bg-primary text-white text-center"><h5>Premium</h5></div>
+                        <div class="card-body text-center">
+                            <h3 class="text-primary">$149</h3>
+                            <p class="text-muted">Good view + Comfort</p>
+                            <p><strong>Available:</strong> 120</p>
+                            <select class="form-select mb-3" id="premium-qty">
+                                <option value="1">1 Ticket</option>
+                                <option value="2">2 Tickets</option>
+                                <option value="3">3 Tickets</option>
+                            </select>
+                            <button class="btn btn-primary w-100 add-to-cart" data-category="Premium" data-price="149">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Economy -->
+                <div class="col-md-4">
+                    <div class="card h-100 shadow">
+                        <div class="card-header bg-secondary text-white text-center"><h5>Economy</h5></div>
+                        <div class="card-body text-center">
+                            <h3>$79</h3>
+                            <p class="text-muted">Standard seating</p>
+                            <p><strong>Available:</strong> 320</p>
+                            <select class="form-select mb-3" id="economy-qty">
+                                <option value="1">1 Ticket</option>
+                                <option value="2">2 Tickets</option>
+                                <option value="3">3 Tickets</option>
+                            </select>
+                            <button class="btn btn-secondary w-100 add-to-cart" data-category="Economy" data-price="79">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <div class="mt-5 p-4 border rounded bg-light">
-                <h5>Your Selected Tickets <span class="badge bg-primary" id="cart-count">0</span></h5>
-                <div id="cart-items"></div>
-                <a href="{{ url_for('main.cart') }}" class="btn btn-outline-primary mt-3">View Full Cart</a>
+            <div class="mt-5">
+                <a href="{{ url_for('main.cart') }}" class="btn btn-outline-primary btn-lg">View Cart</a>
             </div>
         </div>
     </div>
 </div>
 
 <script>
-document.querySelectorAll('.add-to-cart').forEach(button => {
-    button.addEventListener('click', function() {
-        const select = this.parentElement.querySelector('.qty-select');
-        const category = select.dataset.category;
-        const quantity = parseInt(select.value);
-        const matchId = document.getElementById('match-id').value;
+document.querySelectorAll('.add-to-cart').forEach(btn => {
+    btn.addEventListener('click', function() {
+        const category = this.dataset.category;
+        const price = parseFloat(this.dataset.price);
+        const qtySelect = this.parentElement.querySelector('select');
+        const quantity = parseInt(qtySelect.value);
+        const matchId = {{ match.match_id }};
 
         fetch('/add-to-cart', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
-                match_id: parseInt(matchId),
+                match_id: matchId,
                 category: category,
                 quantity: quantity,
-                price: 299
+                price: price
             })
         })
         .then(r => r.json())
         .then(data => {
             if (data.success) {
-                alert(quantity + " × " + category + " ticket(s) added to cart!");
-            } else {
-                alert("Failed: " + (data.message || ""));
+                alert(quantity + " " + category + " ticket(s) added to cart!");
             }
-        })
-        .catch(() => alert("Server error"));
+        });
     });
 });
 </script>

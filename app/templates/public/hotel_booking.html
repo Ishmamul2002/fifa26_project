@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5">
+    <h2>🏨 Booking for: {{ hotel.name }}</h2>
+    <div class="card shadow">
+        <div class="card-body">
+            <form method="POST">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label class="form-label">Check-in Date</label>
+                        <input type="date" name="checkin" class="form-control" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Check-out Date</label>
+                        <input type="date" name="checkout" class="form-control" required>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary mt-4 w-100">Continue to Payment →</button>
+            </form>
+        </div>
+    </div>
+    <a href="{{ url_for('main.book_hotels') }}" class="btn btn-secondary mt-3">← Back to Hotels</a>
+</div>
+{% endblock %}

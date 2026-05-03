@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, redirect, url_for, jsonify
-from ..models import Match, Team, Cart, Ticket, Payment
+from ..models import Match, Team, Cart, Ticket, Payment, Hotel
 from .. import db
 from datetime import datetime
 from flask_login import login_required, current_user
@@ -32,10 +32,11 @@ def upcoming_matches():
                          search_query=search_query)
 
 
+# ================== PRIORITY ROUTE - MUST BE FIRST ==================
 @main_bp.route('/book-ticket/<int:match_id>')
 def book_ticket(match_id):
     match = Match.query.get_or_404(match_id)
-    return render_template('public/book_ticket.html', match=match)
+    return render_template('public/book_ticket.html', match=match, cache=False)
 
 
 @main_bp.route('/cart')
@@ -187,3 +188,103 @@ def remove_from_cart(cart_id):
         return jsonify({'success': False, 'message': 'Item not found'})
     except Exception as e:
         return jsonify({'success': False, 'message': str(e)}), 500
+    
+
+@main_bp.route('/book-hotels')
+@login_required  # or remove if public
+def book_hotels():
+    locations = db.session.query(Hotel.location).distinct().all()
+    locations = [loc[0] for loc in locations if loc[0]]
+    return render_template('public/book_hotels.html', locations=locations)
+
+@main_bp.route('/api/hotels')
+def get_hotels():
+    location = request.args.get('location')
+    query = Hotel.query
+    if location:
+        query = query.filter(Hotel.location.ilike(f'%{location}%'))
+    hotels = query.all()
+    result = [{
+        'hotel_id': h.hotel_id,
+        'name': h.name,
+        'price_per_night': float(h.price_per_night) if h.price_per_night else 0,
+        'location': h.location,
+        'rating': float(h.rating) if h.rating else 0
+    } for h in hotels]
+    return jsonify({'hotels': result})
+
+
+@main_bp.route('/hotel-booking/<int:hotel_id>', methods=['GET', 'POST'])
+@login_required
+def hotel_booking(hotel_id):
+    hotel = Hotel.query.get_or_404(hotel_id)
+    
+    if request.method == 'POST':
+        checkin = request.form.get('checkin')
+        checkout = request.form.get('checkout')
+        if not checkin or not checkout:
+            return "Please select dates", 400
+        return redirect(url_for('main.hotel_payment', 
+                              hotel_id=hotel_id, 
+                              checkin=checkin, 
+                              checkout=checkout))
+    
+    return render_template('public/hotel_booking.html', hotel=hotel)
+
+
+@main_bp.route('/hotel-payment')
+@login_required
+def hotel_payment():
+    hotel_id = request.args.get('hotel_id', type=int)
+    checkin = request.args.get('checkin')
+    checkout = request.args.get('checkout')
+    
+    hotel = Hotel.query.get_or_404(hotel_id)
+    
+    from datetime import datetime
+    try:
+        delta = datetime.strptime(checkout, '%Y-%m-%d') - datetime.strptime(checkin, '%Y-%m-%d')
+        nights = max(delta.days, 1)
+    except:
+        nights = 1
+    
+    total = float(hotel.price_per_night or 0) * nights
+    
+    return render_template('public/hotel_payment.html', 
+                         hotel=hotel, 
+                         checkin=checkin, 
+                         checkout=checkout, 
+                         nights=nights, 
+                         total=round(total, 2))
+
+
+# Optional: My Bookings page 
+@main_bp.route('/my-bookings')
+@login_required
+def my_bookings():
+    return render_template('user/my_bookings.html') 
+
+
+@main_bp.route('/user/highlights')
+@login_required
+def user_highlights():
+    return render_template('user/highlights.html')
+
+
+# ================== HELP DESK ROUTES ==================
+
+@main_bp.route('/user/help')
+@login_required
+def help_desk():
+    return render_template('user/help_desk.html')
+
+@main_bp.route('/submit-ticket', methods=['POST'])
+@login_required
+def submit_ticket():
+    try:
+        data = request.get_json()
+        # In real app, save to DB. For now, just simulate
+        print(f"New Ticket from {current_user.username}: {data.get('subject')}")
+        return jsonify({'success': True, 'message': 'Ticket submitted successfully!'})
+    except:
+        return jsonify({'success': False, 'message': 'Failed to submit ticket'}), 500

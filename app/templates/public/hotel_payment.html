@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5">
+    <h2>💳 Complete Payment</h2>
+    
+    <div class="card shadow mb-4">
+        <div class="card-body">
+            <h4>{{ hotel.name }}</h4>
+            <p><strong>Check-in:</strong> {{ checkin }}</p>
+            <p><strong>Check-out:</strong> {{ checkout }} ({{ nights }} nights)</p>
+            <h3 class="text-success">Total: ${{ total }}</h3>
+        </div>
+    </div>
+
+    <h5 class="mb-3">Choose Payment Method</h5>
+    <div class="list-group">
+        <button onclick="makePayment('bKash')" class="list-group-item list-group-item-action fs-5 py-3">📱 bKash</button>
+        <button onclick="makePayment('Nagad')" class="list-group-item list-group-item-action fs-5 py-3">📱 Nagad</button>
+        <button onclick="makePayment('Mastercard')" class="list-group-item list-group-item-action fs-5 py-3">💳 Mastercard</button>
+        <button onclick="makePayment('Visa')" class="list-group-item list-group-item-action fs-5 py-3">💳 Visa Card</button>
+    </div>
+</div>
+
+<script>
+function makePayment(method) {
+    const total = {{ total | tojson }};
+    const hotelName = {{ hotel.name | tojson }};
+    
+    if (confirm(`Pay $${total} using ${method}?`)) {
+        setTimeout(() => {
+            alert(`✅ Payment Successful via ${method}!\n\nYour booking for ${hotelName} is confirmed.\nDetails sent to your email.`);
+            window.location.href = "{{ url_for('main.my_bookings') }}";
+        }, 1000);
+    }
+}
+</script>
+{% endblock %}

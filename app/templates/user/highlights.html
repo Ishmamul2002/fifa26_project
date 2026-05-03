@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4 text-center">⚽ FIFA 2026 Highlights</h2>
+    <p class="lead text-center mb-5">Catch up on all the goals and best moments from the tournament.</p>
+    
+    <!-- Real FIFA Highlights -->
+    <div class="ratio ratio-16x9 mb-5" style="max-width: 1000px; margin: 0 auto;">
+        <iframe width="100%" height="500" 
+                src="https://www.youtube.com/embed/9YfK2z9zq9M" 
+                title="FIFA World Cup Highlights" 
+                frameborder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                allowfullscreen>
+        </iframe>
+    </div>
+
+    <div class="text-center">
+        <a href="https://www.youtube.com/@fifa/videos" 
+           target="_blank" 
+           class="btn btn-danger btn-lg px-5 py-3">
+            <i class="fab fa-youtube me-2"></i> Watch Full Highlights on FIFA Official YouTube
+        </a>
+    </div>
+
+    <p class="text-center text-muted mt-4">
+        More exciting videos uploaded daily on the official FIFA channel.
+    </p>
+</div>
+{% endblock %}

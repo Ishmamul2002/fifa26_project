@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4">🛟 Help Desk</h2>
+    <p class="lead">Need help? We're here 24/7 for FIFA 2026 fans.</p>
+
+    <div class="row">
+        <!-- FAQ -->
+        <div class="col-lg-7">
+            <h4 class="mb-3">Frequently Asked Questions</h4>
+            <div class="accordion" id="faqAccordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                            How do I book tickets?
+                        </button>
+                    </h2>
+                    <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">Go to "Buy Tickets", select match, add to cart, then checkout.</div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                            Can I cancel my booking?
+                        </button>
+                    </h2>
+                    <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">Yes, within 24 hours. Go to My Tickets and request cancellation.</div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                            How do I get my QR code?
+                        </button>
+                    </h2>
+                    <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">After successful payment, your QR code will be available in My Tickets section.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ticket Form -->
+        <div class="col-lg-5">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">Submit a Ticket</h5>
+                </div>
+                <div class="card-body">
+                    <form id="ticketForm">
+                        <div class="mb-3">
+                            <label class="form-label">Subject</label>
+                            <input type="text" id="subject" class="form-control" placeholder="e.g. Ticket Issue" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Message</label>
+                            <textarea id="message" class="form-control" rows="5" placeholder="Describe your issue..." required></textarea>
+                        </div>
+                        <button type="button" onclick="submitTicket()" class="btn btn-primary w-100">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="text-center mt-5">
+        <p><strong>Contact:</strong> support@fifa26.com | +880 1234 567890</p>
+    </div>
+</div>
+
+<script>
+function submitTicket() {
+    const subject = document.getElementById('subject').value.trim();
+    const message = document.getElementById('message').value.trim();
+
+    if (!subject || !message) {
+        alert("Please fill all fields!");   // fallback
+        return;
+    }
+
+    fetch('/submit-ticket', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ subject, message })
+    })
+    .then(r => r.json())
+    .then(data => {
+        if (data.success) {
+            Swal.fire({
+                title: '✅ Success!',
+                text: 'Your message has been sent. Our team will reply soon.',
+                icon: 'success',
+                confirmButtonText: 'OK'
+            });
+            document.getElementById('ticketForm').reset();
+        } else {
+            alert(data.message || "Failed to send message");
+        }
+    })
+    .catch(err => {
+        alert("Connection error. Please try again.");
+    });
+}
+</script>
+{% endblock %}
